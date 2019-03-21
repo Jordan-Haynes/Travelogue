@@ -20,6 +20,7 @@ import com.example.android.travelogue.data.PlacesDatabase;
 public class PlaceDetailViewFragment extends Fragment {
 
     private static final String TAG = "PlaceDetailViewFragment";
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,6 +70,18 @@ public class PlaceDetailViewFragment extends Fragment {
 
         TextView notesWidget = (TextView) view.findViewById(R.id.place_notes);
         notesWidget.setText(placeNotes);
+
+        snapPictureButton = (Button) view.findViewById(R.id.place_picture);
+        snapPictureButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Snap a picture of this place");
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
 
         return view;
     }
