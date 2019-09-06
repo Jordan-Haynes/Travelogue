@@ -38,5 +38,9 @@ public class AddPlaceActivity extends AppCompatActivity implements AddPlaceFragm
         Intent intent = new Intent(this, PlaceDetailViewActivity.class);
         intent.putExtra(Place.PLACE_NAME, place);
         startActivity(intent);
+
+        // LATEST
+        // Force this activity to stop
+        finish();
     }
 }

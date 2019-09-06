@@ -124,7 +124,6 @@ public class AddPlaceFragment extends Fragment {
 
                 Log.d(TAG, "Submit button clicked, fields added to database.");
 
-                // Create a new map of values, where column names are the keys
                 ContentValues values = new ContentValues();
                 values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
                 values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION, newPlaceLocation);
@@ -135,7 +134,7 @@ public class AddPlaceFragment extends Fragment {
                 Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
 
                 // Insert a new row with values
-                Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.BASE_PATH);
+                Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
                 Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
                 Log.d(TAG, "Finished insert for " + returnedUri);
 

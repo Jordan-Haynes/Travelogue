@@ -17,7 +17,7 @@ public class PlacesDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "savedplaces.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public PlacesDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,15 +26,10 @@ public class PlacesDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.d(TAG, "onCreate: SQLiteDatabase");
-        /*
-        final String SQL_CREATE_PLACES_TABLE = "CREATE TABLE " + PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME +
-                " (" + PlacesDatabase.PlacesDatabaseEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME + " TEXT NOT NULL," +
-                PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION + " TEXT NOT NULL," +
-                PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES + " TEXT NOT NULL)";
-                */
+
         final String SQL_CREATE_PLACES_TABLE =
-                "create table " + PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME + " (" +
+                "create table " +
+                PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME + " (" +
                 PlacesDatabase.PlacesDatabaseEntry._ID + " integer primary key autoincrement, " +
                 PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME + " text not null, " +
                 PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION + " text not null, " +
@@ -42,13 +37,30 @@ public class PlacesDbHelper extends SQLiteOpenHelper {
                 PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE + " double not null, " +
                 PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE + " double not null, " +
                 PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP + " integer not null)";
-
         sqLiteDatabase.execSQL(SQL_CREATE_PLACES_TABLE);
+
+        final String SQL_CREATE_PHOTOS_TABLE =
+                "create table " +
+                PlacesDatabase.PhotosDatabaseEntry.TABLE_NAME + " (" +
+                PlacesDatabase.PhotosDatabaseEntry._ID + " integer primary key autoincrement, " +
+                PlacesDatabase.PhotosDatabaseEntry.COLUMN_PHOTO_FILENAME + " text not null)";
+        sqLiteDatabase.execSQL(SQL_CREATE_PHOTOS_TABLE);
+
+        final String SQL_CREATE_JUNCTION_TABLE =
+                "create table " +
+                PlacesDatabase.PhotosJunctionEntry.TABLE_NAME + " (" +
+                PlacesDatabase.PhotosJunctionEntry._ID + " integer primary key autoincrement," +
+                PlacesDatabase.PhotosJunctionEntry.COLUMN_PLACE_INDEX + " integer not null, " +
+                PlacesDatabase.PhotosJunctionEntry.COLUMN_PHOTO_INDEX + " integer not null)";
+        sqLiteDatabase.execSQL(SQL_CREATE_JUNCTION_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + PlacesDatabase.PhotosDatabaseEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists " + PlacesDatabase.PhotosJunctionEntry.TABLE_NAME);
+
         onCreate(sqLiteDatabase);
     }
 }

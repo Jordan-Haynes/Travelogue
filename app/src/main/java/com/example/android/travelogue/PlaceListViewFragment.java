@@ -44,6 +44,7 @@ public class PlaceListViewFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
     private PlaceListAdapter placeListAdapter;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,7 +68,8 @@ public class PlaceListViewFragment extends Fragment {
         retrievePlaces();
 
         Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView) view;
+        // LATEST RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView = (RecyclerView) view;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -75,6 +77,13 @@ public class PlaceListViewFragment extends Fragment {
         recyclerView.setAdapter(placeListAdapter);
 
         return view;
+    }
+
+    // LATEST
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 
 
@@ -93,6 +102,19 @@ public class PlaceListViewFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    // LATEST
+    private void updateUI() {
+        if (placeListAdapter == null ) {
+            placeListAdapter = new PlaceListAdapter();
+            recyclerView.setAdapter(placeListAdapter);
+        }
+        else {
+            // TODO Did the data set change? Was it added to the place list?
+            placeListAdapter.notifyDataSetChanged();
+            // or notifyItemChanged(int)
+        }
     }
 
     /**
@@ -177,12 +199,14 @@ public class PlaceListViewFragment extends Fragment {
     // Retrieve the list of places from the database
     private void retrievePlaces() {
         // Query the database to get a list of places
+
         // Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.BASE_PATH);
         // String[] projection = { "placeName", "placeLocation", "placeNotes" };
         String[] projection = { PlacesDatabase.PlacesDatabaseEntry._ID, COLUMN_PLACE_NAME, COLUMN_PLACE_LOCATION, COLUMN_PLACE_NOTES,
                 COLUMN_PLACE_LATITUDE, COLUMN_PLACE_LONGITUDE, COLUMN_PLACE_TIMESTAMP };
         Cursor cursor = null;
         try {
+            // TODO use the alias names for column names
             cursor = getActivity().getContentResolver().query(PlacesDatabase.CONTENT_URI, projection, null, null, null);
             while (cursor.moveToNext()) {
                 int    placeId = cursor.getInt(cursor.getColumnIndexOrThrow(PlacesDatabase.PlacesDatabaseEntry._ID));
@@ -194,7 +218,13 @@ public class PlaceListViewFragment extends Fragment {
                 int    placeTime = cursor.getInt(cursor.getColumnIndexOrThrow("placeTime"));
                 Place place = new Place(placeId, placeName, placeLocation, placeNotes, placeLatitude, placeLongitude, placeTime);
                 Log.d(TAG, "Retrieved place name: " + place.placeName);
+
+                // Retrieve the photos for this place
+                retrievePhotos(place);
+
+                // Finally add the place to the list of places
                 placeList.add(place);
+                Log.d(TAG, "Add place to list: " + place);
             }
         } catch (Exception e) {
             Log.e(TAG, "Error found: " + e);
@@ -203,5 +233,43 @@ public class PlaceListViewFragment extends Fragment {
                 cursor.close();
             }
         }
+    }
+
+    private void retrievePhotos(Place place) {
+        // Now query to get the list of images
+        if (place != null) {
+            Uri uri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PHOTOS_DATABASE_PATH);
+            String[] projection = {"photosJunctionDatabase.placeId", "photosJunctionDatabase.photoId", "photosDatabase.photoFilename"};
+            String selection = "photosJunctionDatabase.placeId=?";
+            String[] selectionArgs = {Integer.toString(place.placeId)};
+            Cursor cursor = null;
+            try {
+                cursor = getActivity().getContentResolver().query(uri, projection, selection, selectionArgs, null);
+                for (String column : cursor.getColumnNames()) {
+                    Log.d(TAG, "Cursor column name " + column);
+                }
+                while (cursor.moveToNext()) {
+                    /* was including table name with column, but this was causing problems
+                    int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("photosJunctionDatabase.placeId"));
+                    int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photosJunctionDatabase.photoId"));
+                    String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photosDatabase.photoFilename"));
+                    */
+                    int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("placeId"));
+                    int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photoId"));
+                    String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photoFilename"));
+                    Log.d(TAG, "Retrieved photo for place id: " + placeId + " and photo id: " + photoId + " and filename: " + photoFilename);
+                    place.addPhoto(photoFilename);
+                }
+            }
+            catch (Exception e) {
+                Log.e(TAG, "Database query error from photos database: " + e);
+            }
+            finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
     }
 }
