@@ -9,4 +9,9 @@
     <color name="midGreen">#5E9732</color>
     <color name="darkPurple">#460A4B</color>
     <color name="lightPurple">#903297</color>
+
+    <color name="gray">#A9A9A9</color>
+    <color name="darkGray">#2F4F4F</color>
+    <color name="lightTan">#fcf4de</color>
+
 </resources>

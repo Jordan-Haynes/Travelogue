@@ -6,8 +6,8 @@
     android:name="com.example.android.travelogue.PlaceListViewFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginTop="?attr/actionBarSize"
+    style="@style/PlaceListBox"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.example.android.travelogue.PlaceListViewFragment"
     tools:listitem="@layout/fragment_place" />
