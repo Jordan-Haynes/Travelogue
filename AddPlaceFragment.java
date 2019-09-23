@@ -1,16 +1,11 @@
 package com.example.android.travelogue;
 
-import android.Manifest;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,45 +15,29 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.travelogue.data.PlacesDatabase;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-/*
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-*/
 
 
 public class AddPlaceFragment extends Fragment {
 
     private static final String TAG = "AddPlaceFragment";
-    private static final String[] LOCATION_PERMISSIONS = new String[] {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
-    private static final int REQUEST_LOCATION_PERMISSION = 2;
 
     private OnFragmentInteractionListener mListener;
 
-    private FusedLocationProviderClient client;
-
-    /*
     // TODO Declare Firebase DB reference
     private DatabaseReference database;
-    */
 
     private String newPlaceName;
-    private String newPlaceLocation;
+    // private String newPlaceLocation;
+    private Double newPlaceLong;
+    private Double newPlaceLat;
     private String newPlaceNotes;
     private View addPlaceView;
-
-    private boolean gotNewLocation;
-    private Location newLocation;
 
     public AddPlaceFragment() {
         // Required empty public constructor
@@ -77,12 +56,8 @@ public class AddPlaceFragment extends Fragment {
 
         Log.d(TAG, "onCreateView for AddPlaceFragment is running");
 
-        gotNewLocation = false;
-
-        /*
         // TODO Set reference to Firebase database
-        database = FirebaseDatabase.getInstance().getReference();
-        */
+        // database = FirebaseDatabase.getInstance().getReference();
 
         // TODO Get current place
         /*
@@ -112,8 +87,13 @@ public class AddPlaceFragment extends Fragment {
                 newPlaceName = editPlaceName.getText().toString();
 
                 // TODO Replace with Take Current Position widget
+
+                // TODO Create views for location data
                 EditText editPlaceLocation = (EditText) addPlaceView.findViewById(R.id.place_location_input);
-                newPlaceLocation = editPlaceLocation.getText().toString();
+                newPlaceLong = editPlaceLocation.getText().toString();
+
+                EditText editPlaceLocation = (EditText) addPlaceView.findViewById(R.id.place_location_input);
+                newPlaceLat = editPlaceLocation.getText().toString();
 
                 EditText editPlaceNotes = (EditText) addPlaceView.findViewById(R.id.place_notes_input);
                 newPlaceNotes = editPlaceNotes.getText().toString();
@@ -124,53 +104,33 @@ public class AddPlaceFragment extends Fragment {
 
                 Log.d(TAG, "Submit button clicked, fields added to database.");
 
+                // Create a new map of values, where column names are the keys
+
                 ContentValues values = new ContentValues();
+
                 values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION, newPlaceLocation);
+                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE, newPlaceLong);
+                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE, newPlaceLat);
                 values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES, newPlaceNotes);
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE, newLocation.getLatitude());
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE, newLocation.getLongitude());
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP, newLocation.getTime());
-                Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
+
+                Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLong + ", " + newPlaceLat + ", " + newPlaceNotes);
 
                 // Insert a new row with values
-                Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
-                Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
-                Log.d(TAG, "Finished insert for " + returnedUri);
+                Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.BASE_PATH);
 
-                // Get the id of the new record
-                int newPlaceId = (int) ContentUris.parseId(returnedUri);
+                Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
+
+                Log.d(TAG, "Finished insert for " + returnedUri);
 
                 // TODO Write data to Firebase Realtime Database
                 // writeNewPlace(newPlaceName, newPlaceLocation, newPlaceNotes);
 
                 // TODO Launch intent to open PlaceListActivity
-                mListener.onFragmentInteraction(new Place(newPlaceId, newPlaceName, newPlaceLocation, newPlaceNotes,
-                        newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime()));
+                mListener.onFragmentInteraction(newPlaceName, newPlaceLong, newPlaceLat, newPlaceNotes);
 
                 // TODO Add Snackbar message notifying user of data saved
             }
         });
-
-        Log.d(TAG, "Get the location of this place");
-        // TODO this returns a Location class which is what should be saved in Place
-        if (hasLocationPermission()) {
-            client = LocationServices.getFusedLocationProviderClient(getActivity());
-            client.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                Log.i(TAG, "Got location " + location);
-                                newLocation = location;
-                                gotNewLocation = true;
-                            }
-                        }
-                    });
-        }
-        else {
-            requestPermissions(LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSION);
-        }
 
         return addPlaceView;
     }
@@ -214,7 +174,7 @@ public class AddPlaceFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         // void onFragmentInteraction(Uri uri);
-        void onFragmentInteraction(Place place);
+        void onFragmentInteraction(String placeName, Double placeLongitude, Double placeLatitude, String placeNotes);
     }
 
     /*
@@ -226,12 +186,7 @@ public class AddPlaceFragment extends Fragment {
 
         DatabaseReference pushedRef = myRef.push();
         pushedRef.setValue(place);
+
     }
     */
-
-    // PULL REQUEST 2: get location or image from gallery
-    private boolean hasLocationPermission() {
-        int result = ContextCompat.checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]);
-        return result == PackageManager.PERMISSION_GRANTED;
-    }
 }

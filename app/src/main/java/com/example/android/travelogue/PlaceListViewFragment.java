@@ -2,6 +2,7 @@ package com.example.android.travelogue;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,14 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.travelogue.data.PlacesDatabase;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE;
+import static com.example.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION;
+import static com.example.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE;
+import static com.example.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME;
+import static com.example.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES;
+import static com.example.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP;
 
 /**
  * A fragment representing a list of Items.
@@ -36,11 +39,12 @@ public class PlaceListViewFragment extends Fragment {
 
     private static final String TAG = "PlaceListViewFragment";
 
-    private final List<String> placeList = new ArrayList<>();
+    private final List<Place> placeList = new ArrayList<>();
     private final List<String> keyList = new ArrayList<>();
 
     private OnListFragmentInteractionListener mListener;
     private PlaceListAdapter placeListAdapter;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,7 +68,8 @@ public class PlaceListViewFragment extends Fragment {
         retrievePlaces();
 
         Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView) view;
+        // LATEST RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView = (RecyclerView) view;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -72,6 +77,13 @@ public class PlaceListViewFragment extends Fragment {
         recyclerView.setAdapter(placeListAdapter);
 
         return view;
+    }
+
+    // LATEST
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 
 
@@ -92,6 +104,19 @@ public class PlaceListViewFragment extends Fragment {
         mListener = null;
     }
 
+    // LATEST
+    private void updateUI() {
+        if (placeListAdapter == null ) {
+            placeListAdapter = new PlaceListAdapter();
+            recyclerView.setAdapter(placeListAdapter);
+        }
+        else {
+            // TODO Did the data set change? Was it added to the place list?
+            placeListAdapter.notifyDataSetChanged();
+            // or notifyItemChanged(int)
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -103,65 +128,47 @@ public class PlaceListViewFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(String place, String location, String notes);
+        void onListFragmentInteraction(Place place);
     }
 
     private class PlaceListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private final TextView placeIdTextView;
         private final TextView placeNameTextView;
+        private final TextView placeLocationTextView;
         private int position;
-        private String placeName;
-
+        private Place place;
 
         public PlaceListHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_place, parent, false));
+            placeIdTextView = itemView.findViewById(R.id.position);
             placeNameTextView = itemView.findViewById(R.id.content);
+            placeLocationTextView = itemView.findViewById(R.id.location);
             itemView.setOnClickListener(this);
         }
 
         public void bind(int position) {
             this.position = position;
+            place = placeList.get(position);
 
-            placeName = placeList.get(position);
-            placeNameTextView.setText(placeName);
+            // placeIdTextView.setText(Integer.toString(this.position+1));
+            placeIdTextView.setText(Integer.toString(place.placeId));
+            placeNameTextView.setText(place.placeName);
+            /*
+            Location location = new Location("");
+            location.setLatitude(place.placeLatitude);
+            location.setLongitude(place.placeLongitude);
+            placeLocationTextView.setText(location.toString());
+            */
+            placeLocationTextView.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
+                Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
         }
 
         @Override
         public void onClick(View view) {
             Log.d(TAG, "This has been clicked!");
 
-            //TODO Make Query here?
-            final String placeLocation = "Null";
-            // String placeNotes = "Null";
-
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            String placeKey = keyList.get(position);
-            DatabaseReference myRef = database.getReference("/places/" + placeKey);
-
-            Log.d(TAG, "Database reference for onClick!");
-
-            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String placeNotes = dataSnapshot.child("notes").getValue(String.class);
-                    // placeList.add(place);
-                    Log.d(TAG, "onClick for place: " + placeName + " notes: " + placeNotes);
-                    // placeListAdapter.notifyDataSetChanged();
-
-                    mListener.onListFragmentInteraction(placeName, placeLocation, placeNotes);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-            // TODO Change text in Toast
-            // Toast.makeText(getActivity(), "Recipe title", Toast.LENGTH_SHORT).show();
-            // Log.d(TAG, "Listed onClick: " + placeLocation + " and " + placeNotes);
-
-            // mListener.onListFragmentInteraction(placeName, placeLocation, placeNotes);
+            mListener.onListFragmentInteraction(place);
         }
     }
 
@@ -191,33 +198,78 @@ public class PlaceListViewFragment extends Fragment {
 
     // Retrieve the list of places from the database
     private void retrievePlaces() {
+        // Query the database to get a list of places
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("/places");
+        // Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.BASE_PATH);
+        // String[] projection = { "placeName", "placeLocation", "placeNotes" };
+        String[] projection = { PlacesDatabase.PlacesDatabaseEntry._ID, COLUMN_PLACE_NAME, COLUMN_PLACE_LOCATION, COLUMN_PLACE_NOTES,
+                COLUMN_PLACE_LATITUDE, COLUMN_PLACE_LONGITUDE, COLUMN_PLACE_TIMESTAMP };
+        Cursor cursor = null;
+        try {
+            // TODO use the alias names for column names
+            cursor = getActivity().getContentResolver().query(PlacesDatabase.CONTENT_URI, projection, null, null, null);
+            while (cursor.moveToNext()) {
+                int    placeId = cursor.getInt(cursor.getColumnIndexOrThrow(PlacesDatabase.PlacesDatabaseEntry._ID));
+                String placeName = cursor.getString(cursor.getColumnIndexOrThrow("placeName"));
+                String placeLocation = cursor.getString(cursor.getColumnIndexOrThrow("placeLocation"));
+                String placeNotes = cursor.getString(cursor.getColumnIndexOrThrow("placeNotes"));
+                double placeLatitude = cursor.getDouble(cursor.getColumnIndexOrThrow("placeLatitude"));
+                double placeLongitude = cursor.getDouble(cursor.getColumnIndexOrThrow("placeLongitude"));
+                int    placeTime = cursor.getInt(cursor.getColumnIndexOrThrow("placeTime"));
+                Place place = new Place(placeId, placeName, placeLocation, placeNotes, placeLatitude, placeLongitude, placeTime);
+                Log.d(TAG, "Retrieved place name: " + place.placeName);
 
-        Log.d(TAG, "Database created!");
+                // Retrieve the photos for this place
+                retrievePhotos(place);
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                    String placeKey = ds.getKey();
-                    String place = ds.child("name").getValue(String.class);
-                    Log.d(TAG, "Key for place " + place + " is: " + placeKey);
+                // Finally add the place to the list of places
+                placeList.add(place);
+                Log.d(TAG, "Add place to list: " + place);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error found: " + e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
 
-                    keyList.add(placeKey);
-                    placeList.add(place);
+    private void retrievePhotos(Place place) {
+        // Now query to get the list of images
+        if (place != null) {
+            Uri uri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PHOTOS_DATABASE_PATH);
+            String[] projection = {"photosJunctionDatabase.placeId", "photosJunctionDatabase.photoId", "photosDatabase.photoFilename"};
+            String selection = "photosJunctionDatabase.placeId=?";
+            String[] selectionArgs = {Integer.toString(place.placeId)};
+            Cursor cursor = null;
+            try {
+                cursor = getActivity().getContentResolver().query(uri, projection, selection, selectionArgs, null);
+                for (String column : cursor.getColumnNames()) {
+                    Log.d(TAG, "Cursor column name " + column);
                 }
-                Log.d(TAG, "Starting list of places " + placeList);
-                placeListAdapter.notifyDataSetChanged();
+                while (cursor.moveToNext()) {
+                    /* was including table name with column, but this was causing problems
+                    int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("photosJunctionDatabase.placeId"));
+                    int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photosJunctionDatabase.photoId"));
+                    String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photosDatabase.photoFilename"));
+                    */
+                    int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("placeId"));
+                    int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photoId"));
+                    String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photoFilename"));
+                    Log.d(TAG, "Retrieved photo for place id: " + placeId + " and photo id: " + photoId + " and filename: " + photoFilename);
+                    place.addPhoto(photoFilename);
+                }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            catch (Exception e) {
+                Log.e(TAG, "Database query error from photos database: " + e);
             }
-        });
+            finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
 
-        Log.d(TAG, "The query is as follows: " + placeList);
     }
 }

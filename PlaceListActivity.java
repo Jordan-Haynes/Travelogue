@@ -18,10 +18,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.travelogue.settings.SettingsActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class PlaceListActivity extends AppCompatActivity implements PlaceListViewFragment.OnListFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class PlaceListActivity extends AppCompatActivity implements PlaceListViewFragment.OnListFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "PlaceListActivity";
+    private static final String PLACE_NAME = "PlaceName";
+    private static final String PLACE_LOCATION = "PlaceLocation";
+    private static final String PLACE_NOTES = "PlaceNotes";
 
     int position;
 
@@ -31,6 +43,15 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         setContentView(R.layout.activity_place_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // TODO Google API Client
+        GoogleApiClient client = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(this, this)
+                .build();
 
         FragmentManager fm = getSupportFragmentManager();
 
@@ -56,6 +77,33 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
                 startActivity(intent);
             }
         });
+
+        // Write a message to the database
+        /*
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("/places");
+
+        Log.d(TAG, "Database created!");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    String place = ds.child("name").getValue(String.class);
+                    // String change = dataSnapshot.child("brooklynbridge").child("name").getValue(String.class);
+
+                    Log.d(TAG, "Place name: " + place);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        */
+
+        // myRef.setValue("Hello, World!");
     }
 
     @Override
@@ -85,10 +133,28 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     }
 
     // Callback to PlaceListViewFragment
-    public void onListFragmentInteraction(Place place) {
+    public void onListFragmentInteraction(String place, String location, String notes) {
         Intent intent = new Intent(this, PlaceDetailViewActivity.class);
-        intent.putExtra(Place.PLACE_NAME, place);
+        // TODO Replace with Place class
+        intent.putExtra(PLACE_NAME, place);
+        intent.putExtra(PLACE_LOCATION, location);
+        intent.putExtra(PLACE_NOTES, notes);
         startActivity(intent);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle connectionHint) {
+        Log.i(TAG, "API Client Connection Successful!");
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        Log.i(TAG, "API Client Connection Suspended!");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Log.e(TAG, "API Client Connection Failed!");
     }
 
     @Override
