@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "/Users/jordanhaynes/Documents/Travelogue2/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
                     "source": "/Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/b00a067113afefd3f2c24e93a1fd2da9/res/values-sw600dp-v13/values-sw600dp-v13.xml",

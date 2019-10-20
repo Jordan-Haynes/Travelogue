@@ -124,31 +124,36 @@ public class AddPlaceFragment extends Fragment {
 
                 Log.d(TAG, "Submit button clicked, fields added to database.");
 
-                ContentValues values = new ContentValues();
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION, newPlaceLocation);
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES, newPlaceNotes);
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE, newLocation.getLatitude());
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE, newLocation.getLongitude());
-                values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP, newLocation.getTime());
-                Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
+                if (newLocation == null) {
+                    Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
+                    // TODO Maybe add substitute filler data for case of emulators
+                } else {
+                    ContentValues values = new ContentValues();
+                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
+                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION, newPlaceLocation);
+                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES, newPlaceNotes);
+                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE, newLocation.getLatitude());
+                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE, newLocation.getLongitude());
+                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP, newLocation.getTime());
+                    Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
 
-                // Insert a new row with values
-                Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
-                Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
-                Log.d(TAG, "Finished insert for " + returnedUri);
+                    // Insert a new row with values
+                    Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
+                    Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
+                    Log.d(TAG, "Finished insert for " + returnedUri);
 
-                // Get the id of the new record
-                int newPlaceId = (int) ContentUris.parseId(returnedUri);
+                    // Get the id of the new record
+                    int newPlaceId = (int) ContentUris.parseId(returnedUri);
 
-                // TODO Write data to Firebase Realtime Database
-                // writeNewPlace(newPlaceName, newPlaceLocation, newPlaceNotes);
+                    // TODO Write data to Firebase Realtime Database
+                    // writeNewPlace(newPlaceName, newPlaceLocation, newPlaceNotes);
 
-                // TODO Launch intent to open PlaceListActivity
-                mListener.onFragmentInteraction(new Place(newPlaceId, newPlaceName, newPlaceLocation, newPlaceNotes,
-                        newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime()));
+                    // TODO Launch intent to open PlaceListActivity
+                    mListener.onFragmentInteraction(new Place(newPlaceId, newPlaceName, newPlaceLocation, newPlaceNotes,
+                            newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime()));
 
-                // TODO Add Snackbar message notifying user of data saved
+                    // TODO Add Snackbar message notifying user of data saved
+                }
             }
         });
 

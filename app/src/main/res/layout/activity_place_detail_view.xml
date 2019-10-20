@@ -3,7 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.travelogue.PlaceListActivity"
+    tools:context="com.example.android.travelogue.PlaceDetailViewActivity"
+    android:fitsSystemWindows="true"
     android:id="@+id/detail_view_fragment_container">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_detail_view"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/midGreen" />
+
+    </android.support.design.widget.AppBarLayout>
 
 </FrameLayout>

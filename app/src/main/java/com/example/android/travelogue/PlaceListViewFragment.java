@@ -2,6 +2,7 @@ package com.example.android.travelogue;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,14 +138,16 @@ public class PlaceListViewFragment extends Fragment {
         private final TextView placeIdTextView;
         private final TextView placeNameTextView;
         private final TextView placeLocationTextView;
+        private final ImageView placeImageView;
         private int position;
         private Place place;
 
         public PlaceListHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_place, parent, false));
-            placeIdTextView = itemView.findViewById(R.id.position);
+            placeIdTextView = itemView.findViewById(R.id.id);
             placeNameTextView = itemView.findViewById(R.id.content);
-            placeLocationTextView = itemView.findViewById(R.id.location);
+            placeLocationTextView = itemView.findViewById(R.id.content_location);
+            placeImageView = itemView.findViewById(R.id.place_list_photo);
             itemView.setOnClickListener(this);
         }
 
@@ -154,6 +158,20 @@ public class PlaceListViewFragment extends Fragment {
             // placeIdTextView.setText(Integer.toString(this.position+1));
             placeIdTextView.setText(Integer.toString(place.placeId));
             placeNameTextView.setText(place.placeName);
+
+
+
+            Log.d(TAG, "Picture name under Bind is: " + place.photos);
+
+            /*
+            if (place.photos == null) {
+                Log.d(TAG, "Place photos list is null");
+            } else {
+                Bitmap bitmap = PictureUtilities.getScaledBitmap(place.photos.get(0), getActivity());
+                placeImageView.setImageBitmap(bitmap);
+            }
+            */
+
             /*
             Location location = new Location("");
             location.setLatitude(place.placeLatitude);
