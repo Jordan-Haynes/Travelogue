@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.google.android.geo.API-KEY"
-            android:value="AIzaSyCVi54xeY-EUy07KbZf6vka_C_FNMlT84E" />
+            android:name="com.google.android.geo.API-KEY" />
 
         <activity
             android:name=".PlaceListActivity"
