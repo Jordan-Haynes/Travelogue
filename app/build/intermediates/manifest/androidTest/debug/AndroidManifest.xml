@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.travelogue.test" >
+    package="com.akkeritech.android.travelogue.test" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -10,8 +10,8 @@
         android:name="android.support.test.runner.AndroidJUnitRunner"
         android:functionalTest="false"
         android:handleProfiling="false"
-        android:label="Tests for com.example.android.travelogue"
-        android:targetPackage="com.example.android.travelogue" />
+        android:label="Tests for com.akkeritech.android.travelogue"
+        android:targetPackage="com.akkeritech.android.travelogue" />
 
     <application android:debuggable="true" >
         <uses-library android:name="android.test.runner" />

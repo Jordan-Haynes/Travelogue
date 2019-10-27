@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.travelogue.PlaceListActivity"
+    tools:context="com.akkeritech.android.travelogue.PlaceListActivity"
     android:id="@+id/add_place_fragment_container">
 
 </FrameLayout>

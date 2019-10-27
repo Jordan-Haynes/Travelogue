@@ -6,22 +6,22 @@
     density="xxxhdpi"
     format="10"
     plugin-version="3.0.1"
-    timestamp="1571707196761"
+    timestamp="1572213819090"
     token="8555241121386634431"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="4126" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="591" />
     <task
         name="verifier"
-        duration="0" />
+        duration="452" />
 
     <artifact
         location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
@@ -30,25 +30,25 @@
         location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
+        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
         type="SPLIT" />
     <artifact
         location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
     <artifact
         location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+        location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
         type="SPLIT" />
     <artifact
         location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
@@ -62,8 +62,8 @@
 
     <build
         build-mode="FULL"
-        timestamp="1571707196761"
-        verifier="COLD_SWAP_REQUESTED" >
+        timestamp="1572213819090"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
@@ -71,25 +71,25 @@
             location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
+            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
         <artifact
             location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
             location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+            location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
         <artifact
             location="/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/split-apk/debug/slices/slice_8.apk"

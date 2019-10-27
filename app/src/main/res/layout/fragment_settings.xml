@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.android.travelogue.settings.SettingsFragment">
+    tools:context="com.akkeritech.android.travelogue.settings.SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

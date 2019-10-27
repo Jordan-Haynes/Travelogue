@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:990115539111:android:607db08acebe584a",
         "android_client_info": {
-          "package_name": "com.example.android.travelogue"
+          "package_name": "com.akkeritech.android.travelogue"
         }
       },
       "oauth_client": [
@@ -21,7 +21,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBuVsBnYg499TopHlV9NTNOJgzEGILw0zw"
+          "current_key": ""
         }
       ],
       "services": {

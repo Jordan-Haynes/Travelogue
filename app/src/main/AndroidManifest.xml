@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.travelogue">
+    package="com.akkeritech.android.travelogue">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -28,13 +28,13 @@
 
         <provider
             android:name=".data.PlacesProvider"
-            android:authorities="com.example.android.travelogue.data.provider"
+            android:authorities="com.akkeritech.android.travelogue.data.provider"
             android:exported="false"
             android:grantUriPermissions="true" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.android.travelogue.fileprovider"
+            android:authorities="com.akkeritech.android.travelogue.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

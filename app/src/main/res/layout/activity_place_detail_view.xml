@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.android.travelogue.PlaceDetailViewActivity"
+    tools:context="com.akkeritech.android.travelogue.PlaceDetailViewActivity"
     android:fitsSystemWindows="true"
     android:id="@+id/detail_view_fragment_container">
 
