@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
 MERGED from [com.google.firebase:firebase-core:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-core-16.0.0.aar/8bb4d10a731cdc1355be8466ddb62d18/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-places:15.0.1] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-places-15.0.1.aar/ff3e78f1941d0043c9c0b7cc1f5cfac6/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-location:15.0.1] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-location-15.0.1.aar/76f9936eb7183bd8e4b810939a85d6b1/AndroidManifest.xml:2:1-9:12
@@ -40,25 +40,25 @@ MERGED from [com.android.support:support-core-ui:26.1.0] /Users/jordanhaynes/.gr
 MERGED from [com.android.support:support-compat:26.1.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/a6fa3de5c2d57efe60e606c52cc10b3f/AndroidManifest.xml:17:1-31:12
 MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.4.aar/a79fa347626892d332cac3da4d628f12/AndroidManifest.xml:17:1-24:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/30aad353ed5005721d080b0890f783f3/AndroidManifest.xml:17:1-30:12
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
 	package
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:3:5-45
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:3:5-45
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:1-52:12
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:1-49:12
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:5:5-67
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:5:5-67
 MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-16.0.0.aar/bb01e5691d5e089d7070cf96c4e0fc13/AndroidManifest.xml:22:5-67
 MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-16.0.0.aar/bb01e5691d5e089d7070cf96c4e0fc13/AndroidManifest.xml:22:5-67
 MERGED from [com.google.android.gms:play-services-maps:15.0.1] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/16544573d357d34d780e2b88e882a9be/AndroidManifest.xml:24:5-67
@@ -70,13 +70,13 @@ MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] /Users/jordanha
 MERGED from [com.google.firebase:firebase-iid:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-iid-16.0.0.aar/4b449008e22eb8446631a4e9ea396b13/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-iid-16.0.0.aar/4b449008e22eb8446631a4e9ea396b13/AndroidManifest.xml:23:5-67
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:6:5-79
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:6:5-79
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:6:22-76
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:6:22-76
 application
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:8:5-50:19
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:8:5-47:19
 MERGED from [com.google.firebase:firebase-core:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-core-16.0.0.aar/8bb4d10a731cdc1355be8466ddb62d18/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-core:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-core-16.0.0.aar/8bb4d10a731cdc1355be8466ddb62d18/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-places:15.0.1] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-places-15.0.1.aar/ff3e78f1941d0043c9c0b7cc1f5cfac6/AndroidManifest.xml:22:5-20
@@ -144,87 +144,81 @@ MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] /User
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/30aad353ed5005721d080b0890f783f3/AndroidManifest.xml:24:5-28:19
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/30aad353ed5005721d080b0890f783f3/AndroidManifest.xml:24:5-28:19
 	android:supportsRtl
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:13:9-35
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:13:9-35
 	android:label
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:11:9-41
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:11:9-41
 	android:roundIcon
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:12:9-54
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:12:9-54
 	android:icon
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:10:9-43
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:10:9-43
 	android:allowBackup
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:9:9-35
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:9:9-35
 	android:theme
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:14:9-40
-meta-data#com.google.android.geo.API-KEY
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:15:9-17:71
-	android:value
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:17:13-68
-	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:16:13-58
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:14:9-40
 activity#com.example.android.travelogue.PlaceListActivity
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:19:9-28:20
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:16:9-25:20
 	android:label
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:21:13-45
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:18:13-45
 	android:theme
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:22:13-56
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:19:13-56
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:20:13-46
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:17:13-46
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:23:13-27:29
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:20:13-24:29
 action#android.intent.action.MAIN
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:24:17-69
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:24:25-66
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:26:17-77
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:26:27-74
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:23:27-74
 activity#com.example.android.travelogue.PlaceDetailViewActivity
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:29:9-61
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:26:9-61
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:29:19-58
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:26:19-58
 activity#com.example.android.travelogue.AddPlaceActivity
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:30:9-54
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:27:9-54
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:30:19-51
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:27:19-51
 provider#com.example.android.travelogue.data.PlacesProvider
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:32:9-36:50
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:29:9-33:50
 	android:grantUriPermissions
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:36:13-47
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:33:13-47
 	android:authorities
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:34:13-79
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:31:13-79
 	android:exported
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:35:13-37
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:32:13-37
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:33:13-48
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:30:13-48
 provider#android.support.v4.content.FileProvider
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:38:9-46:20
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:35:9-43:20
 	android:grantUriPermissions
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:42:13-47
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:39:13-47
 	android:authorities
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:40:13-78
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:37:13-78
 	android:exported
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:41:13-37
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:38:13-37
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:39:13-67
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:36:13-67
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:43:13-45:54
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:40:13-42:54
 	android:resource
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:45:17-51
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:42:17-51
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:44:17-67
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:41:17-67
 activity#com.example.android.travelogue.MapsActivity
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:48:9-50
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:45:9-50
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:48:19-47
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:45:19-47
 activity#com.example.android.travelogue.settings.SettingsActivity
-ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:49:9-72
+ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:46:9-72
 	android:name
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml:49:19-60
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml:46:19-60
 uses-sdk
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 MERGED from [com.google.firebase:firebase-core:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-core-16.0.0.aar/8bb4d10a731cdc1355be8466ddb62d18/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-core:16.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/firebase-core-16.0.0.aar/8bb4d10a731cdc1355be8466ddb62d18/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-places:15.0.1] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-places-15.0.1.aar/ff3e78f1941d0043c9c0b7cc1f5cfac6/AndroidManifest.xml:20:5-44
@@ -297,18 +291,18 @@ MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] /User
 MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.4.aar/a79fa347626892d332cac3da4d628f12/AndroidManifest.xml:20:5-44
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/30aad353ed5005721d080b0890f783f3/AndroidManifest.xml:20:5-22:41
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/30aad353ed5005721d080b0890f783f3/AndroidManifest.xml:20:5-22:41
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:26.1.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/b00a067113afefd3f2c24e93a1fd2da9/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		ADDED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/jordanhaynes/Documents/Travelogue2/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		ADDED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/jordanhaynes/Documents/Travelogue/app/src/main/AndroidManifest.xml
 meta-data#android.support.VERSION
 ADDED from [com.android.support:design:26.1.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/b00a067113afefd3f2c24e93a1fd2da9/AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:appcompat-v7:26.1.0] /Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/992d4c1147a86e75d16c5c6e2e0e62ab/AndroidManifest.xml:26:9-28:38

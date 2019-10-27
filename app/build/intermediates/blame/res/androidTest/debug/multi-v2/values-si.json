@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/jordanhaynes/Documents/Travelogue2/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-si/values-si.xml",
+            "outputFile": "/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-si/values-si.xml",
             "map": [
                 {
                     "source": "/Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/4ba6a3699edb12ab73158c6efd9815b4/res/values-si/values.xml",

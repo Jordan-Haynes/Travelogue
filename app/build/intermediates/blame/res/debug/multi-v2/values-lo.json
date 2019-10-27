@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/jordanhaynes/Documents/Travelogue2/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lo/values-lo.xml",
+            "outputFile": "/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lo/values-lo.xml",
             "map": [
                 {
                     "source": "/Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/67c212e9d3217a9ce4b0248f4b12e8f0/res/values-lo/values.xml",

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/jordanhaynes/Documents/Travelogue2/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ar/values-ar.xml",
+            "outputFile": "/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ar/values-ar.xml",
             "map": [
                 {
                     "source": "/Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/992d4c1147a86e75d16c5c6e2e0e62ab/res/values-ar/values-ar.xml",

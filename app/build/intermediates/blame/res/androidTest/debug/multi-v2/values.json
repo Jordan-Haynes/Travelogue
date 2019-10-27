@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/jordanhaynes/Documents/Travelogue2/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/Users/jordanhaynes/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/c7b20ad653fa89d931f27055fc50a5e0/res/values/values.xml",

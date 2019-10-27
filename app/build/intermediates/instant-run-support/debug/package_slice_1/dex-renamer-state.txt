@@ -1,4 +1,4 @@
-#Sat Oct 19 17:35:37 PDT 2019
-base.0=/Users/jordanhaynes/Documents/Travelogue2/app/build/intermediates/transforms/dexMerger/debug/306
+#Mon Oct 21 18:20:07 PDT 2019
+base.0=/Users/jordanhaynes/Documents/Travelogue/app/build/intermediates/transforms/dexMerger/debug/192
 path.0=classes.dex
 renamed.0=classes.dex

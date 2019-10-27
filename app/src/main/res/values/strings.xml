@@ -4,6 +4,7 @@
     <string name="submit_call">Submit</string>
     <string name="cancel_call">Cancel</string>
     <string name="add_place_title">Add New Entry</string>
+    <string name="action_search">Search</string>
 
     <string name="place_name_hint">Name</string>
     <string name="place_location_hint">Location</string>

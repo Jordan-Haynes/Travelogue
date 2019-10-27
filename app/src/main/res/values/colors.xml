@@ -10,8 +10,13 @@
     <color name="darkPurple">#460A4B</color>
     <color name="lightPurple">#903297</color>
 
+    <!-- Colors for Cardview titles -->
+    <color name="darkRed">#BF214B</color>
+    <color name="darkBlue">#0E7373</color>
+
     <color name="gray">#A9A9A9</color>
     <color name="darkGray">#2F4F4F</color>
     <color name="lightTan">#fcf4de</color>
+    <color name="pureWhite">#ffffff</color>
 
 </resources>
