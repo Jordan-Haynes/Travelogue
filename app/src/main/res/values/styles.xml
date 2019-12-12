@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/midGreen</item>
-        <item name="colorPrimaryDark">@color/midGreen</item>
-        <item name="colorAccent">@color/darkPurple</item>
+        <item name="colorPrimaryDark">@color/newColorPrimaryDark</item>
+        <item name="colorAccent">@color/newColorAccent</item>
     </style>
 
     <style name="AppbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
