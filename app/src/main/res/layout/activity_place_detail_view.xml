@@ -1,57 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.akkeritech.android.travelogue.PlaceDetailViewActivity"
     android:fitsSystemWindows="true"
     android:id="@+id/detail_view_fragment_container">
 
-    <!--
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_detail_view"
+        <include layout="@layout/tool_bar"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/midGreen" />
+            android:layout_height="wrap_content"
+            android:minHeight="?actionBarSize"
+            app:tabTextColor="@color/pureWhite"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/pureWhite"
+            app:tabIndicatorHeight="4dp"
+            app:tabBackground="@color/newColorPrimary"
+            app:tabMode="fixed" />
 
-    </android.support.design.widget.AppBarLayout>
-    -->
-
-    <include layout="@layout/tool_bar"/>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?actionBarSize"
-        app:tabTextColor="@color/pureWhite"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/pureWhite"
-        app:tabIndicatorHeight="4dp"
-        app:tabBackground="@color/newColorPrimary"
-        app:tabMode="fixed" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </androidx.viewpager.widget.ViewPager>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/detail_fab"
         android:background="@color/newColorAccent"
-        android:layout_gravity="bottom|end"
         android:maxHeight="80dp"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

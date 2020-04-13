@@ -3,11 +3,13 @@ package com.akkeritech.android.travelogue;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
@@ -38,87 +40,36 @@ public class MapsFragment extends SupportMapFragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
+                double placeLat = place.placeLatitude;
+                double placeLong = place.placeLongitude;
 
                 // Add a marker in Sydney, Australia, and move the camera.
-                LatLng sydney = new LatLng(-34, 151);
+                LatLng sydney = new LatLng(placeLat, placeLong);
                 mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+                updateUI(placeLat, placeLong);
             }
         });
     }
 
-    /*
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // TODO Change layout for MapsFragment
-        View view = inflater.inflate(R.layout.fragment_maps, container, false);
-
-        Log.d(TAG, "Running MapsFragment onCreateView now");
-
-        mMapView = (MapView) view.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-
-        mMapView.onResume();
-
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
+    // Implementation to zoom in on the map
+    private void updateUI(double Lat, double Long) {
+        if (mMap == null) {
+            //if (mMap == null || mMapImage == null) {
+            return;
         }
 
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
+        // LatLng itemPoint = new LatLng(mMapItem.getLat(), mMapItem.getLon());
+        LatLng myPoint = new LatLng(Lat, Long);
 
-                // Add a marker in Sydney, Australia, and move the camera.
-                LatLng sydney = new LatLng(-34, 151);
-                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            }
-        });
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                //.include(itemPoint)
+                .include(myPoint)
+                .build();
 
-        return view;
+        int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
+        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
+        mMap.animateCamera(update);
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
-    }
-    */
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-
-        Log.d(TAG, "MapsActivity onCreate now running");
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-    */
 }

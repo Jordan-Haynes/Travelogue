@@ -2,6 +2,7 @@ package com.akkeritech.android.travelogue;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
+import androidx.viewpager.widget.ViewPager;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -19,12 +22,20 @@ import android.view.MenuItem;
 
 import com.akkeritech.android.travelogue.settings.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 public class PlaceListActivity extends AppCompatActivity implements PlaceListViewFragment.OnListFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "PlaceListActivity";
 
+    private boolean mTwoPane;
+
+    private TabAdapter adapter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
     int position;
+    Place mPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,28 +43,43 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         setContentView(R.layout.activity_place_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
 
-        FragmentManager fm = getSupportFragmentManager();
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        Log.d(TAG, "Start of main activity");
+        if(findViewById(R.id.places_list_linear_layout) != null) {
+            mTwoPane = true;
+            if(savedInstanceState == null) {
+                FragmentManager fm = getSupportFragmentManager();
 
-        PlaceListViewFragment fragment = (PlaceListViewFragment) fm.findFragmentById(R.id.fragment_container);
+                PlaceListViewFragment fragment = (PlaceListViewFragment) fm.findFragmentById(R.id.fragment_container);
 
-        if (fragment == null) {
-            fragment = new PlaceListViewFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
+                if (fragment == null) {
+                    fragment = new PlaceListViewFragment();
+                    fm.beginTransaction()
+                            .add(R.id.fragment_container, fragment)
+                            .commit();
+                }
+            }
+        } else {
+            mTwoPane = false;
+
+            FragmentManager fm = getSupportFragmentManager();
+
+            PlaceListViewFragment fragment = (PlaceListViewFragment) fm.findFragmentById(R.id.fragment_container);
+
+            if (fragment == null) {
+                fragment = new PlaceListViewFragment();
+                fm.beginTransaction()
+                        .add(R.id.fragment_container, fragment)
+                        .commit();
+            }
         }
 
-        // This is the Floating Action Button (FAB) which launches AddPlaceFragment
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
                 Intent intent = new Intent(view.getContext(), AddPlaceActivity.class);
                 startActivity(intent);
             }
@@ -62,22 +88,15 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_place_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Log.d(TAG, "Settings button has been clicked!");
-            // TODO Launch intent to open SettingsActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
@@ -86,11 +105,34 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         return super.onOptionsItemSelected(item);
     }
 
-    // Callback to PlaceListViewFragment
     public void onListFragmentInteraction(Place place) {
-        Intent intent = new Intent(this, PlaceDetailViewActivity.class);
-        intent.putExtra(Place.PLACE_NAME, place);
-        startActivity(intent);
+        if (mTwoPane) {
+            mPlace = place;
+
+            viewPager = (ViewPager) findViewById(R.id.viewPager);
+            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            adapter = new TabAdapter(getSupportFragmentManager());
+
+            PlaceDetailViewFragment detailFragment = new PlaceDetailViewFragment();
+            detailFragment.setDetails(place);
+            adapter.addFragment(detailFragment, "Notes");
+
+            PlacePhotosFragment photosFragment = new PlacePhotosFragment();
+            photosFragment.setDetails(place);
+            adapter.addFragment(photosFragment, "Photos");
+
+            adapter.addFragment(new MapsFragment(), "Map");
+
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
+        } else {
+            Intent intent = new Intent(this, PlaceDetailViewActivity.class);
+            intent.putExtra(Place.PLACE_NAME, place);
+            startActivity(intent);
+        }
+    }
+
+    public void onFragmentInteraction(Uri uri) {
     }
 
     @NonNull

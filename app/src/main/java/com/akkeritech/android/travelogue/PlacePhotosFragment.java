@@ -11,10 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by jordanhaynes on 10/20/19.
- */
-
 public class PlacePhotosFragment extends Fragment {
 
     private static final String TAG = "MapsFragment";
@@ -32,7 +28,6 @@ public class PlacePhotosFragment extends Fragment {
             mPhotoGridAdapter = new PhotoGridAdapter(place.photos);
             mRecyclerView.setAdapter(mPhotoGridAdapter);
         } else {
-            // TODO Resolve how to update when user adds photos
             mPhotoGridAdapter.notifyDataSetChanged();
         }
     }
@@ -40,8 +35,6 @@ public class PlacePhotosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_photos, container, false);
-
-        Log.d(TAG, "PlacePhotosFragment has been created");
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.photo_grid);
 

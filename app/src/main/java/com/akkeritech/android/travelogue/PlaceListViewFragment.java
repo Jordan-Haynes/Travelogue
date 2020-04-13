@@ -153,16 +153,12 @@ public class PlaceListViewFragment extends Fragment {
             this.position = position;
             place = placeList.get(position);
 
-            // placeIdTextView.setText(Integer.toString(this.position+1));
-            // placeIdTextView.setText(Integer.toString(place.placeId));
             placeNameTextView.setText(place.placeName);
 
             if (place.photos != null && place.photos.size() > 0) {
                 String photoFile = place.photos.get(0);
                 if (photoFile == null) {
-                    // TODO Display a default bitmap
                 } else {
-                    // TODO User must choose a default image
                     Glide.with(itemView)
                             .load(photoFile)
                             .centerCrop()
@@ -170,24 +166,6 @@ public class PlaceListViewFragment extends Fragment {
                 }
             }
 
-
-            Log.d(TAG, "Picture name under Bind is: " + place.photos);
-
-            /*
-            if (place.photos == null) {
-                Log.d(TAG, "Place photos list is null");
-            } else {
-                Bitmap bitmap = PictureUtilities.getScaledBitmap(place.photos.get(0), getActivity());
-                placeImageView.setImageBitmap(bitmap);
-            }
-            */
-
-            /*
-            Location location = new Location("");
-            location.setLatitude(place.placeLatitude);
-            location.setLongitude(place.placeLongitude);
-            placeLocationTextView.setText(location.toString());
-            */
             placeLocationTextView.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
                 Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
         }
@@ -200,7 +178,6 @@ public class PlaceListViewFragment extends Fragment {
         }
     }
 
-    // RecyclerView Adapter
     private class PlaceListAdapter extends RecyclerView.Adapter<PlaceListHolder> {
         public PlaceListAdapter() {
         }
@@ -224,17 +201,13 @@ public class PlaceListViewFragment extends Fragment {
         }
     }
 
-    // Retrieve the list of places from the database
     private void retrievePlaces() {
-        // Query the database to get a list of places
-
         // Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.BASE_PATH);
         // String[] projection = { "placeName", "placeLocation", "placeNotes" };
         String[] projection = { PlacesDatabase.PlacesDatabaseEntry._ID, COLUMN_PLACE_NAME, COLUMN_PLACE_LOCATION, COLUMN_PLACE_NOTES,
                 COLUMN_PLACE_LATITUDE, COLUMN_PLACE_LONGITUDE, COLUMN_PLACE_TIMESTAMP };
         Cursor cursor = null;
         try {
-            // TODO use the alias names for column names
             cursor = getActivity().getContentResolver().query(PlacesDatabase.CONTENT_URI, projection, null, null, null);
             while (cursor.moveToNext()) {
                 int    placeId = cursor.getInt(cursor.getColumnIndexOrThrow(PlacesDatabase.PlacesDatabaseEntry._ID));
@@ -245,14 +218,10 @@ public class PlaceListViewFragment extends Fragment {
                 double placeLongitude = cursor.getDouble(cursor.getColumnIndexOrThrow("placeLongitude"));
                 int    placeTime = cursor.getInt(cursor.getColumnIndexOrThrow("placeTime"));
                 Place place = new Place(placeId, placeName, placeLocation, placeNotes, placeLatitude, placeLongitude, placeTime);
-                Log.d(TAG, "Retrieved place name: " + place.placeName);
 
-                // Retrieve the photos for this place
                 retrievePhotos(place);
 
-                // Finally add the place to the list of places
                 placeList.add(place);
-                Log.d(TAG, "Add place to list: " + place);
             }
         } catch (Exception e) {
             Log.e(TAG, "Error found: " + e);
@@ -264,7 +233,6 @@ public class PlaceListViewFragment extends Fragment {
     }
 
     private void retrievePhotos(Place place) {
-        // Now query to get the list of images
         if (place != null) {
             Uri uri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PHOTOS_DATABASE_PATH);
             String[] projection = {"photosJunctionDatabase.placeId", "photosJunctionDatabase.photoId", "photosDatabase.photoFilename"};
@@ -277,15 +245,9 @@ public class PlaceListViewFragment extends Fragment {
                     Log.d(TAG, "Cursor column name " + column);
                 }
                 while (cursor.moveToNext()) {
-                    /* was including table name with column, but this was causing problems
-                    int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("photosJunctionDatabase.placeId"));
-                    int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photosJunctionDatabase.photoId"));
-                    String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photosDatabase.photoFilename"));
-                    */
                     int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("placeId"));
                     int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photoId"));
                     String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photoFilename"));
-                    Log.d(TAG, "Retrieved photo for place id: " + placeId + " and photo id: " + photoId + " and filename: " + photoFilename);
                     place.addPhoto(photoFilename);
                 }
             }

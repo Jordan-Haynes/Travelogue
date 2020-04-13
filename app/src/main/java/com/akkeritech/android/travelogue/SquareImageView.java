@@ -27,7 +27,6 @@ public class SquareImageView extends AppCompatImageView {
         {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            //Snap to width
             setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth());
         }
 }

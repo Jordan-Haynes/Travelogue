@@ -3,19 +3,11 @@ package com.akkeritech.android.travelogue;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
-
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-/**
- * Created by jordanhaynes on 11/10/19.
- */
 
 public class PhotoGridAdapter extends RecyclerView.Adapter<PhotoGridAdapter.PhotoGridHolder> {
 
@@ -40,7 +32,6 @@ public class PhotoGridAdapter extends RecyclerView.Adapter<PhotoGridAdapter.Phot
 
     @Override
     public void onBindViewHolder(@NonNull PhotoGridAdapter.PhotoGridHolder holder, int position) {
-        // super.onBindViewHolder(holder, position, payloads);
         holder.bind(position);
     }
 

@@ -17,13 +17,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MapsActivity";
 
     private GoogleMap mMap;
+    private Place place;
+
+    public void setDetails(Place place) {
+        this.place = place;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        Log.d(TAG, "MapsActivity onCreate now running");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map2);

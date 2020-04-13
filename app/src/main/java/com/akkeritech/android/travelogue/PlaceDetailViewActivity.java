@@ -7,11 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-// import android.widget.Toolbar;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -19,10 +16,10 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
 
     private static final String TAG = "PlaceDetailViewActivity";
 
-    // For the ViewPager
     private TabAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +40,11 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         Intent intent = getIntent();
         Place place = (Place) intent.getParcelableExtra("PlaceName");
 
-        // TODO Add ViewPager
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        fab = (FloatingActionButton) findViewById(R.id.detail_fab);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
 
-        // Throw Parcelable from AddFragment to DetailsViewFragment
         PlaceDetailViewFragment fragment = new PlaceDetailViewFragment();
         fragment.setDetails(place);
         adapter.addFragment(fragment, "Notes");
@@ -57,15 +53,57 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         photosFragment.setDetails(place);
         adapter.addFragment(photosFragment, "Photos");
 
-
-        adapter.addFragment(new MapsFragment(), "Map");
+        MapsFragment mapFragment = new MapsFragment();
+        mapFragment.setDetails(place);
+        adapter.addFragment(mapFragment, "Map");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        // FragmentManager fm = getSupportFragmentManager();
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                Log.d(TAG, "Position is " + position);
+
+                if (position == 0) {
+                    fab.setImageResource(R.drawable.ic_mode_edit_white_24dp);
+                    fab.show();
+                } else if (position == 1) {
+                    fab.setImageResource(R.drawable.ic_photo_white_24dp);
+                    fab.show();
+                } else {
+                    fab.hide();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        // Handle the FloatingActionButton click event:
+        /*
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewPager.getCurrentItem();
+                if (position == 0) {
+                    Log.d(TAG, "fab clickListener on tab 1");
+                } else if (position == 1) {
+                    Log.d(TAG, "fab clickListener on tab 2");
+                }
+            }
+        });
+
+         */
 
         // This is the Floating Action Button (FAB) which launches AddPlaceFragment
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.detail_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,26 +116,9 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
             }
         });
 
-        Log.d(TAG, "Start of PlaceDetailViewActivity");
-
-        /*
-        PlaceDetailViewFragment fragment = (PlaceDetailViewFragment) fm.findFragmentById(R.id.detail_view_fragment_container);
-
-        if (fragment == null) {
-            fragment = new PlaceDetailViewFragment();
-            fragment.setDetails(place);
-            fm.beginTransaction()
-                    .add(R.id.detail_view_fragment_container, fragment)
-                    .commit();
-        }
-        */
+         */
     }
 
     public void onFragmentInteraction(Uri uri) {
-        /*
-        Intent intent = new Intent(this, PlaceDetailViewActivity.class);
-        intent.putExtra(PLACE_DETAILS, position);
-        startActivity(intent);
-        */
     }
 }

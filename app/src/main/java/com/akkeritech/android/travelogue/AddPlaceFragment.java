@@ -23,14 +23,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-/*
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-*/
-
-
 public class AddPlaceFragment extends Fragment {
 
     private static final String TAG = "AddPlaceFragment";
@@ -53,7 +45,6 @@ public class AddPlaceFragment extends Fragment {
     private Location newLocation;
 
     public AddPlaceFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -64,30 +55,11 @@ public class AddPlaceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         addPlaceView = inflater.inflate(R.layout.fragment_add_place, container, false);
 
         Log.d(TAG, "onCreateView for AddPlaceFragment is running");
 
         gotNewLocation = false;
-
-        // TODO Get current place
-        /*
-        Task<PlaceLikelihoodBufferResponse> placeResult = mPlaceDetectionClient.getCurrentPlace(null);
-        placeResult.addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-                for (PlaceLikelihood placeLikelihood : likelyPlaces) {
-                    Log.i(TAG, String.format("Place '%s' has likelihood: %g",
-                            placeLikelihood.getPlace().getName(),
-                            placeLikelihood.getLikelihood()));
-                }
-                likelyPlaces.release();
-            }
-        });
-        */
-
 
         Button button = addPlaceView.findViewById(R.id.submit_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -103,15 +75,10 @@ public class AddPlaceFragment extends Fragment {
                 EditText editPlaceNotes = (EditText) addPlaceView.findViewById(R.id.place_notes_input);
                 newPlaceNotes = editPlaceNotes.getText().toString();
 
-                // Toast for when button is clicked
-                // TODO Remove toast when submit button functionality is finished
-                Toast.makeText(getContext(), "You have clicked the Submit button!", Toast.LENGTH_SHORT).show();
-
                 Log.d(TAG, "Submit button clicked, fields added to database.");
 
                 if (newLocation == null) {
                     Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
-                    // TODO Maybe add substitute filler data for case of emulators
                 } else {
                     ContentValues values = new ContentValues();
                     values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
@@ -122,19 +89,14 @@ public class AddPlaceFragment extends Fragment {
                     values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP, newLocation.getTime());
                     Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
 
-                    // Insert a new row with values
                     Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
                     Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
                     Log.d(TAG, "Finished insert for " + returnedUri);
 
-                    // Get the id of the new record
                     int newPlaceId = (int) ContentUris.parseId(returnedUri);
 
-                    // TODO Launch intent to open PlaceListActivity
                     mListener.onFragmentInteraction(new Place(newPlaceId, newPlaceName, newPlaceLocation, newPlaceNotes,
                             newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime()));
-
-                    // TODO Add Snackbar message notifying user of data saved
                 }
             }
         });
@@ -146,8 +108,6 @@ public class AddPlaceFragment extends Fragment {
               }
         });
 
-        Log.d(TAG, "Get the location of this place");
-        // TODO this returns a Location class which is what should be saved in Place
         if (hasLocationPermission()) {
             client = LocationServices.getFusedLocationProviderClient(getActivity());
             client.getLastLocation()
@@ -169,15 +129,6 @@ public class AddPlaceFragment extends Fragment {
         return addPlaceView;
     }
 
-    /*
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction();
-        }
-    }
-    */
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -195,23 +146,10 @@ public class AddPlaceFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        // void onFragmentInteraction(Uri uri);
         void onFragmentInteraction(Place place);
     }
 
-    // PULL REQUEST 2: get location or image from gallery
     private boolean hasLocationPermission() {
         int result = ContextCompat.checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]);
         return result == PackageManager.PERMISSION_GRANTED;

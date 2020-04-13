@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/midGreen</item>
         <item name="colorPrimaryDark">@color/newColorPrimaryDark</item>
         <item name="colorAccent">@color/newColorAccent</item>
+        <item name="fontFamily">@font/special_elite</item>
     </style>
 
     <style name="AppbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark">

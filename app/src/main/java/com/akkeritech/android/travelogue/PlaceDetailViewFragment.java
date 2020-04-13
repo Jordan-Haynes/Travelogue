@@ -71,7 +71,7 @@ public class PlaceDetailViewFragment extends Fragment {
     private FusedLocationProviderClient client;
     */
 
-    private OnFragmentInteractionListener mListener;
+    // private OnFragmentInteractionListener mListener;
 
     // TODO Replace with Place class
     Place place;
@@ -151,32 +151,14 @@ public class PlaceDetailViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_place_detail_view, container, false);
-
-        Log.d(TAG, "Running onCreateView now");
-
-        Log.d(TAG, "Details are " + place.placeName + ", " + place.placeLocation + ", " + place.placeNotes);
-
-        // TODO Retrieve details; actually this is never called anymore
-        /*
-        if (place == null) {
-            retrieveDetails();
-        }
-        */
-
-        // TODO Add instance variables for camera intent
 
         ImageButton photoButton = (ImageButton) view.findViewById(R.id.place_camera);
         photoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Snap a picture of this place");
-                // FEATURE: SNAP PICTURE
-                // Send an intent to camera application to capture a picture.
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    // startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
                     try {
                         photoFile = createImageFile();
@@ -186,7 +168,6 @@ public class PlaceDetailViewFragment extends Fragment {
                     }
 
                     if (photoFile != null) {
-                        // getContext().getPackageName() + ".fileprovider"
                         Uri photoURI = FileProvider.getUriForFile(getActivity(),
                                 "com.akkeritech.android.travelogue.fileprovider",
                                 photoFile);
@@ -197,7 +178,6 @@ public class PlaceDetailViewFragment extends Fragment {
                 }
             }
         });
-
 
         mPhotoView = (ImageView) view.findViewById(R.id.place_photo);
         if (place.photos != null && place.photos.size() > 0) {
@@ -223,27 +203,11 @@ public class PlaceDetailViewFragment extends Fragment {
         TextView notesWidget = (TextView) view.findViewById(R.id.place_notes);
         notesWidget.setText(place.placeNotes);
 
-        /*
-        // PULL REQUEST: this code grabs an image from Google gallery instead of using
-        // the camera
-        Button grabPictureButton = (Button) view.findViewById(R.id.place_grab_picture);
-        grabPictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Grab a picture from the gallery");
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GRAB_IMAGE_GALLERY);
-            }
-        });
-        */
-
         ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
             viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    // view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     int viewWidth = mPhotoView.getMeasuredWidth();
                     int viewHeight = mPhotoView.getMeasuredHeight();
                     Log.d(TAG, "GlobalLayout Width = " + viewWidth + ", GlobalLayout Height = " + viewHeight);
@@ -255,61 +219,16 @@ public class PlaceDetailViewFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    /* TODO moved to add place functionality
-    // PULL REQUEST 2: get location or image from gallery
-    private boolean hasLocationPermission() {
-        int result = ContextCompat.checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]);
-        return result == PackageManager.PERMISSION_GRANTED;
-    }
-    */
-
     private File createImageFile() throws IOException {
-        // Create a file for the captured image from the camera.
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
         File storageDir = getContext().getFilesDir();
-        // File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         Log.d(TAG, "Created filename for saving image: " + imageFileName);
-        // return image;
         return new File(storageDir, imageFileName);
     }
 
@@ -317,40 +236,20 @@ public class PlaceDetailViewFragment extends Fragment {
         if (getContext() == null)
             return;
 
-        // Capture the background
-        //Create a Bitmap with the same dimensions as the View
-
-        // Get screen size
-        /*
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-        Log.d(TAG, "Width = " + width + ", Height = " + height);
-
-         */
-
-        Log.d(TAG, "Size of parentView is: " + parentView.getMeasuredWidth() + " and " + parentView.getMeasuredHeight());
         Bitmap image = Bitmap.createBitmap(parentView.getMeasuredWidth(),
                 parentView.getMeasuredHeight(),
                 Bitmap.Config.ARGB_4444); //reduce quality
-        //Draw the view inside the Bitmap
         Canvas canvas = new Canvas(image);
         parentView.draw(canvas);
-
-        // Make it frosty
 
         Paint paint = new Paint();
         paint.setXfermode(
                 new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         ColorFilter filter =
                 new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
-        //ColorFilter filter =
-        //   new LightingColorFilter(0xFF7F7F7F, 0x00000000); // darken
         paint.setColorFilter(filter);
         canvas.drawBitmap(image, 0, 0, paint);
 
-        // Figure out where views intersect
         Matrix matrix = new Matrix();
         matrix.setScale(0.5f, 0.5f);
         Bitmap bitmap = Bitmap.createBitmap(image, (int) cardView.getX(), (int) cardView.getY(),

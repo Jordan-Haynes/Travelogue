@@ -1,20 +1,13 @@
 package com.akkeritech.android.travelogue;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by jordanhaynes on 7/10/18.
- */
 
 public class Place implements Parcelable {
     public static final String PLACE_NAME = "PlaceName";
 
-    // TODO public String placeKey;
     public int    placeId;
     public String placeName;
     public String placeLocation;
@@ -26,7 +19,6 @@ public class Place implements Parcelable {
     public List<String> photos = null;
 
     public Place() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
     public Place(int id, String name, String location, String notes, double latitude, double longitude, int time) {
@@ -65,8 +57,6 @@ public class Place implements Parcelable {
         parcel.writeList(photos);
     }
 
-    // All Parcelables must have a CREATOR that implements these two methods. This is
-    // used to regenerate the object
     public static final Parcelable.Creator<Place> CREATOR = new Parcelable.Creator<Place>() {
         public Place createFromParcel(Parcel in) {
             return new Place(in);
@@ -77,7 +67,6 @@ public class Place implements Parcelable {
         }
     };
 
-    // Constructor that takes a Parcel and gives you an object populated with it's values
     private Place(Parcel in) {
         placeId = in.readInt();
         placeName = in.readString();
