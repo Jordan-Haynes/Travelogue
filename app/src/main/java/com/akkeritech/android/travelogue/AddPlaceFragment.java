@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.akkeritech.android.travelogue.data.PlacesDatabase;
@@ -124,6 +125,13 @@ public class AddPlaceFragment extends Fragment {
         }
         else {
             requestPermissions(LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSION);
+        }
+
+        TextView currentLocation = (TextView) addPlaceView.findViewById(R.id.currentLocation);
+        if (newLocation == null) {
+            currentLocation.setText(R.string.placeholder_current);
+        } else {
+            currentLocation.setText(newLocation.getLatitude() + ", " + newLocation.getLongitude());
         }
 
         return addPlaceView;

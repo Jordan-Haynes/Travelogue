@@ -10,6 +10,9 @@
     <string name="place_location_hint">Location</string>
     <string name="place_notes_hint">Notes</string>
 
+    <string name="placeholder_current">0, 0</string>
+    <string name="needs_location">No Current Location Saved with this Place</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps2">Map</string>

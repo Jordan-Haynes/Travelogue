@@ -39,6 +39,7 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
 
         Intent intent = getIntent();
         Place place = (Place) intent.getParcelableExtra("PlaceName");
+        Double placeLat = place.placeLatitude;
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fab = (FloatingActionButton) findViewById(R.id.detail_fab);
@@ -53,9 +54,14 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         photosFragment.setDetails(place);
         adapter.addFragment(photosFragment, "Photos");
 
-        MapsFragment mapFragment = new MapsFragment();
-        mapFragment.setDetails(place);
-        adapter.addFragment(mapFragment, "Map");
+        if (placeLat == 0) {
+            NoLocationFragment mapFragment = new NoLocationFragment();
+            adapter.addFragment(mapFragment, "Map");
+        } else {
+            MapsFragment mapFragment = new MapsFragment();
+            mapFragment.setDetails(place);
+            adapter.addFragment(mapFragment, "Map");
+        }
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

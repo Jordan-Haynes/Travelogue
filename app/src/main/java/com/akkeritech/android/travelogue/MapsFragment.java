@@ -36,6 +36,7 @@ public class MapsFragment extends SupportMapFragment {
 
         Log.d(TAG, "MapsFragment has been created");
 
+
         getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 public class PlacePhotosFragment extends Fragment {
 
-    private static final String TAG = "MapsFragment";
+    private static final String TAG = "PhotosFragment";
 
     private PhotoGridAdapter mPhotoGridAdapter;
     private RecyclerView mRecyclerView;
