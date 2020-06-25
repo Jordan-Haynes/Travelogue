@@ -15,7 +15,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
@@ -42,6 +44,7 @@ import android.widget.TextView;
 
 import com.akkeritech.android.travelogue.data.PlacesDatabase;
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,9 +84,12 @@ public class PlaceDetailViewFragment extends Fragment {
     private ImageView mPhotoView;
     private LinearLayout mDetailView;
 
+    private BottomSheetBehavior mBottomSheetBehavior;
+
     public PlaceDetailViewFragment() {
         place = null;
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -153,6 +159,7 @@ public class PlaceDetailViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_detail_view, container, false);
 
+        /*
         ImageButton photoButton = (ImageButton) view.findViewById(R.id.place_camera);
         photoButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -179,6 +186,8 @@ public class PlaceDetailViewFragment extends Fragment {
             }
         });
 
+         */
+
         mPhotoView = (ImageView) view.findViewById(R.id.place_photo);
         if (place.photos != null && place.photos.size() > 0) {
             String photoFile = place.photos.get(0);
@@ -198,10 +207,17 @@ public class PlaceDetailViewFragment extends Fragment {
         nameWidget.setText(place.placeName);
 
         TextView locationWidget = (TextView) view.findViewById(R.id.place_location);
-        locationWidget.setText(place.placeLocation);
+        locationWidget.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
+                Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
 
         TextView notesWidget = (TextView) view.findViewById(R.id.place_notes);
-        notesWidget.setText(place.placeNotes);
+        notesWidget.setText("Notes \n\n" + place.placeNotes);
+
+        View bottomSheet = view.findViewById(R.id.bottom_sheet);
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior.setPeekHeight(150);
+        // mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
@@ -224,6 +240,7 @@ public class PlaceDetailViewFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    /*
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
@@ -231,6 +248,8 @@ public class PlaceDetailViewFragment extends Fragment {
         Log.d(TAG, "Created filename for saving image: " + imageFileName);
         return new File(storageDir, imageFileName);
     }
+
+     */
 
     private void frostCardView(View parentView, View cardView) {
         if (getContext() == null)
@@ -262,7 +281,9 @@ public class PlaceDetailViewFragment extends Fragment {
 
             // Then display
             Drawable d = new BitmapDrawable(getResources(), bitmap);
-            mDetailView.setBackground(d);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mDetailView.setBackground(d);
+            }
         }
     }
 }

@@ -29,7 +29,7 @@
 
         <!-- PlacesListFragment -->
         <FrameLayout
-            android:layout_width="400dp"
+            android:layout_width="256dp"
             android:layout_height="wrap_content"
             android:id="@+id/fragment_container">
 
@@ -51,6 +51,8 @@
             tools:context="com.akkeritech.android.travelogue.PlaceDetailViewActivity"
             android:fitsSystemWindows="true"
             android:id="@+id/detail_view_fragment_container">
+
+            <include layout="@layout/tool_bar"/>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"

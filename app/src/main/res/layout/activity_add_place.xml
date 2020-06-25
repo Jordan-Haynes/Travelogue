@@ -6,4 +6,6 @@
     tools:context="com.akkeritech.android.travelogue.PlaceListActivity"
     android:id="@+id/add_place_fragment_container">
 
+    <include layout="@layout/tool_bar"/>
+
 </FrameLayout>

@@ -70,8 +70,8 @@ public class AddPlaceFragment extends Fragment {
                 newPlaceName = editPlaceName.getText().toString();
 
                 // TODO Replace with Take Current Position widget
-                EditText editPlaceLocation = (EditText) addPlaceView.findViewById(R.id.place_location_input);
-                newPlaceLocation = editPlaceLocation.getText().toString();
+                // EditText editPlaceLocation = (EditText) addPlaceView.findViewById(R.id.place_location_input);
+                // newPlaceLocation = editPlaceLocation.getText().toString();
 
                 EditText editPlaceNotes = (EditText) addPlaceView.findViewById(R.id.place_notes_input);
                 newPlaceNotes = editPlaceNotes.getText().toString();
@@ -126,6 +126,13 @@ public class AddPlaceFragment extends Fragment {
         else {
             requestPermissions(LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSION);
         }
+
+/*
+        TextView currentLocation = (TextView) addPlaceView.findViewById(R.id.currentLocation);
+        currentLocation.setText(Location.convert(newLocation.getLatitude(), Location.FORMAT_DEGREES) + "," +
+                Location.convert(newLocation.getLongitude(), Location.FORMAT_DEGREES));
+
+ */
 
         TextView currentLocation = (TextView) addPlaceView.findViewById(R.id.currentLocation);
         if (newLocation == null) {
