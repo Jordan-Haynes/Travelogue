@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-
     <color name="newColorPrimary">#2F4C73</color>
     <color name="newColorPrimaryDark">#0D1E40</color>
     <color name="newColorAccent">#A64E77</color>
     <color name="newColorAccentDark">#73264A</color>
     <color name="newDropColor">#D9BD9C</color>
 
-    <color name="lightGreen">#9AE462</color>
-    <color name="darkGreen">#2A4B11</color>
     <color name="midGreen">#5E9732</color>
-    <color name="darkPurple">#460A4B</color>
-    <color name="lightPurple">#903297</color>
 
-    <!-- Colors for Cardview titles -->
-    <color name="darkRed">#BF214B</color>
     <color name="darkBlue">#0E7373</color>
 
-    <color name="gray">#A9A9A9</color>
     <color name="darkGray">#2F4F4F</color>
     <color name="lightTan">#fcf4de</color>
     <color name="pureWhite">#ffffff</color>

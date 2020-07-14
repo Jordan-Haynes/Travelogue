@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/place_list_photo"
-            android:contentDescription="Picture of Place"
+            android:contentDescription="@string/place_picture_hint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/darker_gray"
@@ -37,7 +37,7 @@
             android:layout_marginBottom="12dp"
             android:background="@color/pureWhite"
             android:padding="5sp"
-            android:text="Place Name"
+            android:text="@string/place_name_hint"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/darkGray"
             android:textSize="24sp"
@@ -55,7 +55,7 @@
             android:layout_marginBottom="24dp"
             android:background="@color/pureWhite"
             android:padding="5sp"
-            android:text="Place Location"
+            android:text="@string/place_location_hint"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/darkBlue"
             card_view:fontFamily="@font/special_elite"

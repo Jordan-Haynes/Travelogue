@@ -10,14 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.akkeritech.android.travelogue.data.PlacesDatabase;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -58,28 +56,19 @@ public class AddPlaceFragment extends Fragment {
                              Bundle savedInstanceState) {
         addPlaceView = inflater.inflate(R.layout.fragment_add_place, container, false);
 
-        Log.d(TAG, "onCreateView for AddPlaceFragment is running");
-
         gotNewLocation = false;
 
         Button button = addPlaceView.findViewById(R.id.submit_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                EditText editPlaceName = (EditText) addPlaceView.findViewById(R.id.place_name_input);
+                EditText editPlaceName = addPlaceView.findViewById(R.id.place_name_input);
                 newPlaceName = editPlaceName.getText().toString();
 
-                // TODO Replace with Take Current Position widget
-                // EditText editPlaceLocation = (EditText) addPlaceView.findViewById(R.id.place_location_input);
-                // newPlaceLocation = editPlaceLocation.getText().toString();
-
-                EditText editPlaceNotes = (EditText) addPlaceView.findViewById(R.id.place_notes_input);
+                EditText editPlaceNotes = addPlaceView.findViewById(R.id.place_notes_input);
                 newPlaceNotes = editPlaceNotes.getText().toString();
 
-                Log.d(TAG, "Submit button clicked, fields added to database.");
-
                 if (newLocation == null) {
-                    Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
                 } else {
                     ContentValues values = new ContentValues();
                     values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
@@ -88,11 +77,9 @@ public class AddPlaceFragment extends Fragment {
                     values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE, newLocation.getLatitude());
                     values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE, newLocation.getLongitude());
                     values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP, newLocation.getTime());
-                    Log.d(TAG, "row saved consists of " + newPlaceName + ", " + newPlaceLocation + ", " + newPlaceNotes);
 
                     Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
                     Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
-                    Log.d(TAG, "Finished insert for " + returnedUri);
 
                     int newPlaceId = (int) ContentUris.parseId(returnedUri);
 
@@ -116,9 +103,12 @@ public class AddPlaceFragment extends Fragment {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                Log.i(TAG, "Got location " + location);
                                 newLocation = location;
                                 gotNewLocation = true;
+
+                                TextView currentLocation = addPlaceView.findViewById(R.id.currentLocation);
+                                currentLocation.setText(Location.convert(newLocation.getLatitude(), Location.FORMAT_DEGREES) + "," +
+                                        Location.convert(newLocation.getLongitude(), Location.FORMAT_DEGREES));
                             }
                         }
                     });
@@ -127,14 +117,7 @@ public class AddPlaceFragment extends Fragment {
             requestPermissions(LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSION);
         }
 
-/*
-        TextView currentLocation = (TextView) addPlaceView.findViewById(R.id.currentLocation);
-        currentLocation.setText(Location.convert(newLocation.getLatitude(), Location.FORMAT_DEGREES) + "," +
-                Location.convert(newLocation.getLongitude(), Location.FORMAT_DEGREES));
-
- */
-
-        TextView currentLocation = (TextView) addPlaceView.findViewById(R.id.currentLocation);
+        TextView currentLocation = addPlaceView.findViewById(R.id.currentLocation);
         if (newLocation == null) {
             currentLocation.setText(R.string.placeholder_current);
         } else {

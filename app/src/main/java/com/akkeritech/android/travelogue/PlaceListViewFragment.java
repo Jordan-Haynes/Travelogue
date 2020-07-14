@@ -29,12 +29,6 @@ import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDataba
 import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES;
 import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class PlaceListViewFragment extends Fragment {
 
     private static final String TAG = "PlaceListViewFragment";
@@ -46,10 +40,6 @@ public class PlaceListViewFragment extends Fragment {
     private PlaceListAdapter placeListAdapter;
     private RecyclerView recyclerView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public PlaceListViewFragment() {
     }
 
@@ -63,12 +53,9 @@ public class PlaceListViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_list, container, false);
 
-        Log.d(TAG, "onCreateView is running");
-
         retrievePlaces();
 
         Context context = view.getContext();
-        // LATEST RecyclerView recyclerView = (RecyclerView) view;
         recyclerView = (RecyclerView) view;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -79,7 +66,6 @@ public class PlaceListViewFragment extends Fragment {
         return view;
     }
 
-    // LATEST
     @Override
     public void onResume() {
         super.onResume();
@@ -104,36 +90,22 @@ public class PlaceListViewFragment extends Fragment {
         mListener = null;
     }
 
-    // LATEST
     private void updateUI() {
         if (placeListAdapter == null ) {
             placeListAdapter = new PlaceListAdapter();
             recyclerView.setAdapter(placeListAdapter);
         }
         else {
-            // TODO Did the data set change? Was it added to the place list?
             placeListAdapter.notifyDataSetChanged();
-            // or notifyItemChanged(int)
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Place place);
     }
 
     private class PlaceListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        // private final TextView placeIdTextView;
         private final TextView placeNameTextView;
         private final TextView placeLocationTextView;
         private final ImageView placeImageView;
@@ -142,7 +114,6 @@ public class PlaceListViewFragment extends Fragment {
 
         public PlaceListHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_place, parent, false));
-            // placeIdTextView = itemView.findViewById(R.id.id);
             placeNameTextView = itemView.findViewById(R.id.content);
             placeLocationTextView = itemView.findViewById(R.id.content_location);
             placeImageView = itemView.findViewById(R.id.place_list_photo);
@@ -172,8 +143,6 @@ public class PlaceListViewFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "This has been clicked!");
-
             mListener.onListFragmentInteraction(place);
         }
     }
@@ -196,14 +165,11 @@ public class PlaceListViewFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            Log.d(TAG, "Number of place = " + placeList.size());
             return placeList.size();
         }
     }
 
     private void retrievePlaces() {
-        // Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.BASE_PATH);
-        // String[] projection = { "placeName", "placeLocation", "placeNotes" };
         String[] projection = { PlacesDatabase.PlacesDatabaseEntry._ID, COLUMN_PLACE_NAME, COLUMN_PLACE_LOCATION, COLUMN_PLACE_NOTES,
                 COLUMN_PLACE_LATITUDE, COLUMN_PLACE_LONGITUDE, COLUMN_PLACE_TIMESTAMP };
         Cursor cursor = null;
@@ -242,7 +208,7 @@ public class PlaceListViewFragment extends Fragment {
             try {
                 cursor = getActivity().getContentResolver().query(uri, projection, selection, selectionArgs, null);
                 for (String column : cursor.getColumnNames()) {
-                    Log.d(TAG, "Cursor column name " + column);
+
                 }
                 while (cursor.moveToNext()) {
                     int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("placeId"));

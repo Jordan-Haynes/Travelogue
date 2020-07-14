@@ -15,12 +15,10 @@ import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.akkeritech.android.travelogue.settings.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -41,8 +39,7 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -76,7 +73,7 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
             }
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,12 +93,6 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -109,8 +100,8 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         if (mTwoPane) {
             mPlace = place;
 
-            viewPager = (ViewPager) findViewById(R.id.viewPager);
-            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            viewPager = findViewById(R.id.viewPager);
+            tabLayout = findViewById(R.id.tabLayout);
             adapter = new TabAdapter(getSupportFragmentManager());
 
             PlaceDetailViewFragment detailFragment = new PlaceDetailViewFragment();

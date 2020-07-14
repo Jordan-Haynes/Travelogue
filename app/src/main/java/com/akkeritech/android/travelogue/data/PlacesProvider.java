@@ -7,11 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
-
-/**
- * Created by jordanhaynes on 7/4/18.
- */
 
 public class PlacesProvider extends ContentProvider {
     private final static String TAG = "PlacesProvider";
@@ -39,7 +34,6 @@ public class PlacesProvider extends ContentProvider {
             dbHelper = new PlacesDbHelper(getContext());
         }
 
-        Log.d(TAG, "Creating Places database content provider");
         return true;
     }
 
@@ -50,7 +44,6 @@ public class PlacesProvider extends ContentProvider {
         int uriType = uriMatcher.match(uri);
         switch (uriType) {
             case PLACES_TABLE:
-                Log.d(TAG, "Inserting into places table of PlacesDatabase.");
                 tableName = PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME;
                 break;
 
@@ -58,7 +51,6 @@ public class PlacesProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI: " + uri);
 
             case PHOTOS_TABLE:
-                Log.d(TAG, "Inserting into photos table of PlacesDatabase");
                 tableName = PlacesDatabase.PhotosDatabaseEntry.TABLE_NAME;
                 break;
 
@@ -66,7 +58,6 @@ public class PlacesProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI: " + uri);
 
             case JUNCTION_TABLE:
-                Log.d(TAG, "Inserting into junction table of PlacesDatabase");
                 tableName = PlacesDatabase.PhotosJunctionEntry.TABLE_NAME;
                 break;
 
@@ -81,8 +72,6 @@ public class PlacesProvider extends ContentProvider {
 
         long index = db.insert(tableName, null, values);
 
-        // return Uri.parse(PLACES_TABLE + "/" + index);
-        // TODO return the full URI plus the index
         return Uri.parse(uri + "/" + index);
     }
 
@@ -90,13 +79,12 @@ public class PlacesProvider extends ContentProvider {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = null;
+        Cursor cursor;
 
         int uriType = uriMatcher.match(uri);
         switch (uriType) {
             case PLACES_TABLE:
             case PLACES_TABLE_ITEM:
-                Log.d(TAG, "Querying places table in database");
                 cursor = db.query(
                         PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME,
                         projection,
@@ -109,10 +97,8 @@ public class PlacesProvider extends ContentProvider {
                 break;
 
             case PHOTOS_TABLE:
-                Log.d(TAG, "Querying photos table in database");
                 SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
                 queryBuilder.setTables("photosDatabase INNER JOIN photosJunctionDatabase ON photosDatabase._ID=photosJunctionDatabase.photoId");
-                // queryBuilder.appendWhere(selection);
                 cursor = queryBuilder.query(
                         db,
                         projection,
@@ -131,7 +117,6 @@ public class PlacesProvider extends ContentProvider {
         return cursor;
     }
 
-    // Return the number of rows updated
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
@@ -146,7 +131,6 @@ public class PlacesProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI: " + uri);
 
             case PLACES_TABLE_ITEM:
-                Log.d(TAG, "Querying places table.");
                 tableName = PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME;
                 break;
 
@@ -157,7 +141,6 @@ public class PlacesProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         int deletedRows = db.delete(tableName, selection, selectionArgs);
-        Log.d(TAG, "Deleted " + deletedRows + " rows via ContentProvider");
         return deletedRows;
     }
 

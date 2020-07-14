@@ -3,14 +3,6 @@ package com.akkeritech.android.travelogue.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.akkeritech.android.travelogue.data.PlacesDatabase;
-
-
-/**
- * Created by jordanhaynes on 7/4/18.
- */
 
 public class PlacesDbHelper extends SQLiteOpenHelper {
     private static final String TAG = "PlacesDbHelper";
@@ -25,8 +17,6 @@ public class PlacesDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.d(TAG, "onCreate: SQLiteDatabase");
-
         final String SQL_CREATE_PLACES_TABLE =
                 "create table " +
                 PlacesDatabase.PlacesDatabaseEntry.TABLE_NAME + " (" +
