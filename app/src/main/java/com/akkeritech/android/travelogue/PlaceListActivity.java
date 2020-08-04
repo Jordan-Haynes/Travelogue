@@ -44,7 +44,8 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        if(findViewById(R.id.places_list_linear_layout) != null) {
+        // if(findViewById(R.id.places_list_linear_layout) != null) {
+        if (dpWidth < 0) {
             mTwoPane = true;
             if(savedInstanceState == null) {
                 FragmentManager fm = getSupportFragmentManager();

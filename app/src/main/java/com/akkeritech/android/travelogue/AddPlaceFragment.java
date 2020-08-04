@@ -1,15 +1,18 @@
 package com.akkeritech.android.travelogue;
 
 import android.Manifest;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.akkeritech.android.travelogue.data.PlacesDatabase;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +37,7 @@ public class AddPlaceFragment extends Fragment {
 
     private FusedLocationProviderClient client;
 
+    private AddPlaceViewModel viewModel;
     private String newPlaceName;
     private String newPlaceLocation;
     private String newPlaceNotes;
@@ -65,26 +68,21 @@ public class AddPlaceFragment extends Fragment {
                 EditText editPlaceName = addPlaceView.findViewById(R.id.place_name_input);
                 newPlaceName = editPlaceName.getText().toString();
 
+                // TODO Replace with Take Current Position widget
+                // EditText editPlaceLocation = (EditText) addPlaceView.findViewById(R.id.place_location_input);
+                // newPlaceLocation = editPlaceLocation.getText().toString();
+                newPlaceLocation = "TBD";
+
                 EditText editPlaceNotes = addPlaceView.findViewById(R.id.place_notes_input);
                 newPlaceNotes = editPlaceNotes.getText().toString();
 
                 if (newLocation == null) {
                 } else {
-                    ContentValues values = new ContentValues();
-                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME, newPlaceName);
-                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION, newPlaceLocation);
-                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES, newPlaceNotes);
-                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE, newLocation.getLatitude());
-                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE, newLocation.getLongitude());
-                    values.put(PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP, newLocation.getTime());
+                    Place place = new Place(0, newPlaceName, newPlaceLocation, newPlaceNotes,
+                        newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime());
+                    place.placeId = viewModel.insertPlace(place);
 
-                    Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PLACES_DATABASE_PATH);
-                    Uri returnedUri = getActivity().getContentResolver().insert(contentUri, values);
-
-                    int newPlaceId = (int) ContentUris.parseId(returnedUri);
-
-                    mListener.onFragmentInteraction(new Place(newPlaceId, newPlaceName, newPlaceLocation, newPlaceNotes,
-                            newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime()));
+                    mListener.onFragmentInteraction(place);
                 }
             }
         });
@@ -125,6 +123,13 @@ public class AddPlaceFragment extends Fragment {
         }
 
         return addPlaceView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(AddPlaceViewModel.class);
     }
 
     @Override

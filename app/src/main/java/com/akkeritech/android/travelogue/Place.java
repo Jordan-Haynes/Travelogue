@@ -16,7 +16,7 @@ public class Place implements Parcelable {
     public double placeLongitude;
     public int    placeTime;
 
-    public List<String> photos = null;
+    public ArrayList<String> photos = null;
 
     public Place() {
     }

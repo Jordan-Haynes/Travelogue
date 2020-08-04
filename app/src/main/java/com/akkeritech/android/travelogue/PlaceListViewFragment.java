@@ -5,7 +5,13 @@ import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,29 +22,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.akkeritech.android.travelogue.data.PlacesDatabase;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LATITUDE;
-import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LOCATION;
-import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_LONGITUDE;
-import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NAME;
-import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_NOTES;
-import static com.akkeritech.android.travelogue.data.PlacesDatabase.PlacesDatabaseEntry.COLUMN_PLACE_TIMESTAMP;
-
 public class PlaceListViewFragment extends Fragment {
 
     private static final String TAG = "PlaceListViewFragment";
 
-    private final List<Place> placeList = new ArrayList<>();
-    private final List<String> keyList = new ArrayList<>();
-
     private OnListFragmentInteractionListener mListener;
-    private PlaceListAdapter placeListAdapter;
+    private PlaceListAdapter placeListAdapter = new PlaceListAdapter(new ArrayList<Place>());
     private RecyclerView recyclerView;
+    private PlaceListViewModel viewModel;
 
     public PlaceListViewFragment() {
     }
@@ -52,26 +48,36 @@ public class PlaceListViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_list, container, false);
+        return view;
+    }
 
-        retrievePlaces();
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        Context context = view.getContext();
+        viewModel = ViewModelProviders.of(this).get(PlaceListViewModel.class);
+        viewModel.refresh(); // retrieves the information
+
         recyclerView = (RecyclerView) view;
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-        placeListAdapter = new PlaceListAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(placeListAdapter);
 
-        return view;
+        viewModel.placesList.observe(this, new Observer<List<Place>>() {
+            @Override
+            public void onChanged(List<Place> places) {
+                if (places != null && places instanceof List) {
+                    recyclerView.setVisibility(View.VISIBLE); // may not be needed
+                    placeListAdapter.updatePlacesList(places);
+                }
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        viewModel.refresh(); // retrieves the information
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -90,71 +96,26 @@ public class PlaceListViewFragment extends Fragment {
         mListener = null;
     }
 
-    private void updateUI() {
-        if (placeListAdapter == null ) {
-            placeListAdapter = new PlaceListAdapter();
-            recyclerView.setAdapter(placeListAdapter);
-        }
-        else {
-            placeListAdapter.notifyDataSetChanged();
-        }
-    }
-
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Place place);
     }
 
-    private class PlaceListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceListHolder> {
+        private ArrayList<Place> placesList;
 
-        private final TextView placeNameTextView;
-        private final TextView placeLocationTextView;
-        private final ImageView placeImageView;
-        private int position;
-        private Place place;
-
-        public PlaceListHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.fragment_place, parent, false));
-            placeNameTextView = itemView.findViewById(R.id.content);
-            placeLocationTextView = itemView.findViewById(R.id.content_location);
-            placeImageView = itemView.findViewById(R.id.place_list_photo);
-            itemView.setOnClickListener(this);
+        public PlaceListAdapter(ArrayList<Place> placesList) {
+            this.placesList = placesList;
         }
 
-        public void bind(int position) {
-            this.position = position;
-            place = placeList.get(position);
-
-            placeNameTextView.setText(place.placeName);
-
-            if (place.photos != null && place.photos.size() > 0) {
-                String photoFile = place.photos.get(0);
-                if (photoFile == null) {
-                } else {
-                    Glide.with(itemView)
-                            .load(photoFile)
-                            .centerCrop()
-                            .into(placeImageView);
-                }
-            }
-
-            placeLocationTextView.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
-                Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
-        }
-
-        @Override
-        public void onClick(View view) {
-            mListener.onListFragmentInteraction(place);
-        }
-    }
-
-    private class PlaceListAdapter extends RecyclerView.Adapter<PlaceListHolder> {
-        public PlaceListAdapter() {
+        public void updatePlacesList(List<Place> updatedPlacesList) {
+            placesList.clear();
+            placesList.addAll(updatedPlacesList);
+            notifyDataSetChanged();
         }
 
         @Override
         public PlaceListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-
             return new PlaceListHolder(layoutInflater, parent);
         }
 
@@ -165,67 +126,49 @@ public class PlaceListViewFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return placeList.size();
-        }
-    }
-
-    private void retrievePlaces() {
-        String[] projection = { PlacesDatabase.PlacesDatabaseEntry._ID, COLUMN_PLACE_NAME, COLUMN_PLACE_LOCATION, COLUMN_PLACE_NOTES,
-                COLUMN_PLACE_LATITUDE, COLUMN_PLACE_LONGITUDE, COLUMN_PLACE_TIMESTAMP };
-        Cursor cursor = null;
-        try {
-            cursor = getActivity().getContentResolver().query(PlacesDatabase.CONTENT_URI, projection, null, null, null);
-            while (cursor.moveToNext()) {
-                int    placeId = cursor.getInt(cursor.getColumnIndexOrThrow(PlacesDatabase.PlacesDatabaseEntry._ID));
-                String placeName = cursor.getString(cursor.getColumnIndexOrThrow("placeName"));
-                String placeLocation = cursor.getString(cursor.getColumnIndexOrThrow("placeLocation"));
-                String placeNotes = cursor.getString(cursor.getColumnIndexOrThrow("placeNotes"));
-                double placeLatitude = cursor.getDouble(cursor.getColumnIndexOrThrow("placeLatitude"));
-                double placeLongitude = cursor.getDouble(cursor.getColumnIndexOrThrow("placeLongitude"));
-                int    placeTime = cursor.getInt(cursor.getColumnIndexOrThrow("placeTime"));
-                Place place = new Place(placeId, placeName, placeLocation, placeNotes, placeLatitude, placeLongitude, placeTime);
-
-                retrievePhotos(place);
-
-                placeList.add(place);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error found: " + e);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    private void retrievePhotos(Place place) {
-        if (place != null) {
-            Uri uri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PHOTOS_DATABASE_PATH);
-            String[] projection = {"photosJunctionDatabase.placeId", "photosJunctionDatabase.photoId", "photosDatabase.photoFilename"};
-            String selection = "photosJunctionDatabase.placeId=?";
-            String[] selectionArgs = {Integer.toString(place.placeId)};
-            Cursor cursor = null;
-            try {
-                cursor = getActivity().getContentResolver().query(uri, projection, selection, selectionArgs, null);
-                for (String column : cursor.getColumnNames()) {
-
-                }
-                while (cursor.moveToNext()) {
-                    int placeId = cursor.getInt(cursor.getColumnIndexOrThrow("placeId"));
-                    int photoId = cursor.getInt(cursor.getColumnIndexOrThrow("photoId"));
-                    String photoFilename = cursor.getString(cursor.getColumnIndexOrThrow("photoFilename"));
-                    place.addPhoto(photoFilename);
-                }
-            }
-            catch (Exception e) {
-                Log.e(TAG, "Database query error from photos database: " + e);
-            }
-            finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
+            return placesList.size();
         }
 
+        private class PlaceListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            private final TextView placeNameTextView;
+            private final TextView placeLocationTextView;
+            private final ImageView placeImageView;
+            private int position;
+            private Place place;
+
+            public PlaceListHolder(LayoutInflater inflater, ViewGroup parent) {
+                super(inflater.inflate(R.layout.fragment_place, parent, false));
+                placeNameTextView = itemView.findViewById(R.id.content);
+                placeLocationTextView = itemView.findViewById(R.id.content_location);
+                placeImageView = itemView.findViewById(R.id.place_list_photo);
+                itemView.setOnClickListener(this);
+            }
+
+            public void bind(int position) {
+                this.position = position;
+                place = placesList.get(position);
+
+                placeNameTextView.setText(place.placeName);
+
+                if (place.photos != null && place.photos.size() > 0) {
+                    String photoFile = place.photos.get(0);
+                    if (photoFile == null) {
+                    } else {
+                        Glide.with(itemView)
+                                .load(photoFile)
+                                .centerCrop()
+                                .into(placeImageView);
+                    }
+                }
+
+                placeLocationTextView.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
+                        Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
+            }
+
+            @Override
+            public void onClick(View view) {
+                mListener.onListFragmentInteraction(place);
+            }
+        }
     }
 }

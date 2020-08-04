@@ -1,7 +1,5 @@
 package com.akkeritech.android.travelogue;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -10,14 +8,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.akkeritech.android.travelogue.data.PlacesDatabase;
-import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import java.io.File;
@@ -32,13 +29,15 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     Place place;
+
+    PlaceDetailViewModel viewModel;
+
     private TabAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fab;
 
     private File photoFile = null;
-    private ImageView mPhotoView;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -46,27 +45,10 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                if (photoFile == null || !photoFile.exists()) {
-                    mPhotoView.setImageDrawable(null);
+                if (photoFile != null && photoFile.exists()) {
+                    place.addPhoto(photoFile.getPath());
+                    viewModel.insertPhoto(place, photoFile);
                 }
-                else {
-                    Glide.with(this)
-                            .load(photoFile.getPath())
-                            .into(mPhotoView);
-
-                    ContentValues values = new ContentValues();
-                    values.put(PlacesDatabase.PhotosDatabaseEntry.COLUMN_PHOTO_FILENAME, photoFile.getPath());
-                    Uri contentUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PHOTOS_DATABASE_PATH);
-                    Uri returnedUri = getApplicationContext().getContentResolver().insert(contentUri, values);
-                    int newPhotoFilenameId = (int) ContentUris.parseId(returnedUri);
-
-                    ContentValues junctionValues = new ContentValues();
-                    junctionValues.put(PlacesDatabase.PhotosJunctionEntry.COLUMN_PLACE_INDEX, place.placeId);
-                    junctionValues.put(PlacesDatabase.PhotosJunctionEntry.COLUMN_PHOTO_INDEX, newPhotoFilenameId);
-                    Uri junctionUri = Uri.parse("content://" + PlacesDatabase.AUTHORITY + "/" + PlacesDatabase.PHOTO_JUNCTION_PATH);
-                    Uri returnedJunctionUri = getApplicationContext().getContentResolver().insert(junctionUri, junctionValues);
-                }
-
             }
         }
     }
@@ -75,6 +57,13 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_detail_view);
+
+        Intent intent = getIntent();
+        place = intent.getParcelableExtra("PlaceName");
+
+        // Get a new or existing ViewModel from the ViewModelProvider.
+        viewModel = ViewModelProviders.of(this).get(PlaceDetailViewModel.class);
+        viewModel.setCurrentPlace(place);
 
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -87,14 +76,17 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
            }
         });
 
-        Intent intent = getIntent();
-        Place place = intent.getParcelableExtra("PlaceName");
-        Double placeLat = place.placeLatitude;
-
         viewPager = findViewById(R.id.viewPager);
         fab = findViewById(R.id.detail_fab);
         tabLayout = findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
+
+        viewModel.thePlace.observe(this, new Observer<Place>() {
+            @Override
+            public void onChanged(Place place) {
+                // TODO Update fragment objects here
+            }
+        });
 
         PlaceDetailViewFragment fragment = new PlaceDetailViewFragment();
         fragment.setDetails(place);
@@ -104,6 +96,7 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         photosFragment.setDetails(place);
         adapter.addFragment(photosFragment, "Photos");
 
+        Double placeLat = place.placeLatitude;
         if (placeLat == 0) {
             NoLocationFragment mapFragment = new NoLocationFragment();
             adapter.addFragment(mapFragment, "Map");
