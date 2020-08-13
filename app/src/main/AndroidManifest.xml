@@ -26,11 +26,6 @@
         <activity android:name=".AddPlaceActivity" />
 
         <provider
-            android:name=".data.PlacesProvider"
-            android:authorities="com.akkeritech.android.travelogue.data.provider"
-            android:exported="false"
-            android:grantUriPermissions="true" />
-        <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.akkeritech.android.travelogue.fileprovider"
             android:exported="false"

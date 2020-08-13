@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,14 +54,13 @@ public class PlaceListViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(PlaceListViewModel.class);
-        viewModel.refresh(); // retrieves the information
+        viewModel = new ViewModelProvider(this).get(PlaceListViewModel.class);
 
         recyclerView = (RecyclerView) view;
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(placeListAdapter);
 
-        viewModel.placesList.observe(this, new Observer<List<Place>>() {
+        viewModel.getAllPlaces().observe(this, new Observer<List<Place>>() {
             @Override
             public void onChanged(List<Place> places) {
                 if (places != null && places instanceof List) {
@@ -76,7 +74,6 @@ public class PlaceListViewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.refresh(); // retrieves the information
     }
 
     @Override
@@ -150,15 +147,11 @@ public class PlaceListViewFragment extends Fragment {
 
                 placeNameTextView.setText(place.placeName);
 
-                if (place.photos != null && place.photos.size() > 0) {
-                    String photoFile = place.photos.get(0);
-                    if (photoFile == null) {
-                    } else {
-                        Glide.with(itemView)
-                                .load(photoFile)
-                                .centerCrop()
-                                .into(placeImageView);
-                    }
+                if (place.placeReferencePhoto != null) {
+                    Glide.with(itemView)
+                            .load(place.placeReferencePhoto)
+                            .centerCrop()
+                            .into(placeImageView);
                 }
 
                 placeLocationTextView.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +

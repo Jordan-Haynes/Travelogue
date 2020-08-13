@@ -42,8 +42,9 @@ public class AddPlaceActivity extends AppCompatActivity implements AddPlaceFragm
     }
 
     public void onFragmentInteraction(Place place) {
-        Intent intent = new Intent(this, PlaceDetailViewActivity.class);
-        intent.putExtra(Place.PLACE_NAME, place);
+        // Intent intent = new Intent(this, PlaceDetailViewActivity.class);
+        // intent.putExtra(Place.PLACE_NAME, place);
+        Intent intent = new Intent(this, PlaceListActivity.class); // TODO
         startActivity(intent);
 
         finish();

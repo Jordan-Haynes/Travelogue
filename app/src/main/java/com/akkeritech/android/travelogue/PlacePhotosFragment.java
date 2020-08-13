@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
@@ -23,13 +23,12 @@ public class PlacePhotosFragment extends Fragment {
 
     private static final String TAG = "PhotosFragment";
 
-    private PhotoGridAdapter mPhotoGridAdapter = new PhotoGridAdapter(new ArrayList<String>());
+    private PhotoGridAdapter mPhotoGridAdapter = new PhotoGridAdapter(new ArrayList<Photo>());
     private RecyclerView mRecyclerView;
     private PlaceDetailViewModel viewModel;
-    private Place place;
 
-    public void setDetails(Place place) {
-        this.place = place;
+    PlacePhotosFragment(PlaceDetailViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @Override
@@ -42,18 +41,19 @@ public class PlacePhotosFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(PlaceDetailViewModel.class);
+        // Pass the view model in from the parent activity. See constructor.
+        // viewModel = new ViewModelProvider(getActivity()).get(PlaceDetailViewModel.class);
 
         mRecyclerView = view.findViewById(R.id.photo_grid);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3, RecyclerView.VERTICAL, false));
         mRecyclerView.setAdapter(mPhotoGridAdapter);
 
-        viewModel.thePlace.observe(this, new Observer<Place>() {
+        viewModel.getAllPhotos().observe(this, new Observer<List<Photo>>() {
             @Override
-            public void onChanged(Place place) {
-                if (place != null && place.photos != null) {
+            public void onChanged(List<Photo> photos) {
+                if (photos != null && photos instanceof List) {
                     mRecyclerView.setVisibility(View.VISIBLE); // may not be needed
-                    mPhotoGridAdapter.updatePhotoList(place.photos);
+                    mPhotoGridAdapter.updatePhotoList(photos);
                 }
             }
         });
@@ -62,13 +62,13 @@ public class PlacePhotosFragment extends Fragment {
     public class PhotoGridAdapter extends RecyclerView.Adapter<PhotoGridAdapter.PhotoGridHolder> {
 
         private final String TAG = "PhotoGridAdapter";
-        private ArrayList<String> mPhotoPaths;
+        private ArrayList<Photo> mPhotoPaths;
 
-        public PhotoGridAdapter(ArrayList<String> paths) {
+        public PhotoGridAdapter(ArrayList<Photo> paths) {
             mPhotoPaths = paths;
         }
 
-        public void updatePhotoList(List<String> updatedPhotoList) {
+        public void updatePhotoList(List<Photo> updatedPhotoList) {
             mPhotoPaths.clear();
             mPhotoPaths.addAll(updatedPhotoList);
             notifyDataSetChanged();
@@ -102,7 +102,7 @@ public class PlacePhotosFragment extends Fragment {
 
             public void bind(int position) {
                 this.position = position;
-                String imageData = mPhotoPaths.get(position);
+                String imageData = mPhotoPaths.get(position).photoFilename;
                 Glide.with(itemView)
                         .load(imageData)
                         .centerCrop()

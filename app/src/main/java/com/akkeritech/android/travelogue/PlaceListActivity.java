@@ -1,17 +1,13 @@
 package com.akkeritech.android.travelogue;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.DisplayMetrics;
@@ -22,7 +18,7 @@ import android.view.MenuItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-public class PlaceListActivity extends AppCompatActivity implements PlaceListViewFragment.OnListFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class PlaceListActivity extends AppCompatActivity implements PlaceListViewFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = "PlaceListActivity";
 
@@ -101,19 +97,21 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         if (mTwoPane) {
             mPlace = place;
 
+            PlaceDetailViewModel viewModel = new ViewModelProvider(this).get(PlaceDetailViewModel.class);
+            viewModel.setCurrentPlace(place);
+
             viewPager = findViewById(R.id.viewPager);
             tabLayout = findViewById(R.id.tabLayout);
             adapter = new TabAdapter(getSupportFragmentManager());
 
-            PlaceDetailViewFragment detailFragment = new PlaceDetailViewFragment();
-            detailFragment.setDetails(place);
+            PlaceDetailViewFragment detailFragment = new PlaceDetailViewFragment(viewModel);
             adapter.addFragment(detailFragment, "Notes");
 
-            PlacePhotosFragment photosFragment = new PlacePhotosFragment();
-            photosFragment.setDetails(place);
+            PlacePhotosFragment photosFragment = new PlacePhotosFragment(viewModel);
             adapter.addFragment(photosFragment, "Photos");
 
-            adapter.addFragment(new MapsFragment(), "Map");
+            MapsFragment mapsFragment = new MapsFragment(viewModel);
+            adapter.addFragment(mapsFragment, "Map");
 
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
@@ -125,21 +123,5 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     }
 
     public void onFragmentInteraction(Uri uri) {
-    }
-
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
     }
 }

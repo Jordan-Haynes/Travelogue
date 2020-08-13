@@ -13,8 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import java.io.File;
@@ -46,8 +45,7 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 if (photoFile != null && photoFile.exists()) {
-                    place.addPhoto(photoFile.getPath());
-                    viewModel.insertPhoto(place, photoFile);
+                    viewModel.insertPhoto(place, photoFile.getPath());
                 }
             }
         }
@@ -62,7 +60,8 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         place = intent.getParcelableExtra("PlaceName");
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        viewModel = ViewModelProviders.of(this).get(PlaceDetailViewModel.class);
+        // viewModel = ViewModelProviders.of(this).get(PlaceDetailViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PlaceDetailViewModel.class);
         viewModel.setCurrentPlace(place);
 
         Toolbar toolbar = findViewById(R.id.tool_bar);
@@ -81,19 +80,10 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
         tabLayout = findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
 
-        viewModel.thePlace.observe(this, new Observer<Place>() {
-            @Override
-            public void onChanged(Place place) {
-                // TODO Update fragment objects here
-            }
-        });
-
-        PlaceDetailViewFragment fragment = new PlaceDetailViewFragment();
-        fragment.setDetails(place);
+        PlaceDetailViewFragment fragment = new PlaceDetailViewFragment(viewModel);
         adapter.addFragment(fragment, "Notes");
 
-        PlacePhotosFragment photosFragment = new PlacePhotosFragment();
-        photosFragment.setDetails(place);
+        PlacePhotosFragment photosFragment = new PlacePhotosFragment(viewModel);
         adapter.addFragment(photosFragment, "Photos");
 
         Double placeLat = place.placeLatitude;
@@ -101,7 +91,7 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
             NoLocationFragment mapFragment = new NoLocationFragment();
             adapter.addFragment(mapFragment, "Map");
         } else {
-            MapsFragment mapFragment = new MapsFragment();
+            MapsFragment mapFragment = new MapsFragment(viewModel);
             mapFragment.setDetails(place);
             adapter.addFragment(mapFragment, "Map");
         }

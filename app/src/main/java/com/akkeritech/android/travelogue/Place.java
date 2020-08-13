@@ -5,18 +5,45 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "place_table")
 public class Place implements Parcelable {
     public static final String PLACE_NAME = "PlaceName";
 
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "placeId")
     public int    placeId;
+
+    @NonNull
+    @ColumnInfo(name="placeName")
     public String placeName;
+
+    @NonNull
+    @ColumnInfo(name = "placeLocation")
     public String placeLocation;
+
+    @NonNull
+    @ColumnInfo(name = "placeNotes")
     public String placeNotes;
+
+    @NonNull
+    @ColumnInfo(name = "placeLatitude")
     public double placeLatitude;
+
+    @NonNull
+    @ColumnInfo(name = "placeLongitude")
     public double placeLongitude;
+
+    @NonNull
+    @ColumnInfo(name = "placeTime")
     public int    placeTime;
 
-    public ArrayList<String> photos = null;
+    @ColumnInfo(name = "placeReferencePhoto")
+    public String placeReferencePhoto;
 
     public Place() {
     }
@@ -29,15 +56,6 @@ public class Place implements Parcelable {
         this.placeLatitude = latitude;
         this.placeLongitude = longitude;
         this.placeTime = time;
-        photos = new ArrayList<>();
-    }
-
-    public void addPhoto(String photo) {
-        if (photos == null) {
-            photos = new ArrayList<>();
-        }
-
-        photos.add(photo);
     }
 
     @Override
@@ -54,7 +72,7 @@ public class Place implements Parcelable {
         parcel.writeDouble(placeLatitude);
         parcel.writeDouble(placeLongitude);
         parcel.writeInt(placeTime);
-        parcel.writeList(photos);
+        parcel.writeString(placeReferencePhoto);
     }
 
     public static final Parcelable.Creator<Place> CREATOR = new Parcelable.Creator<Place>() {
@@ -75,10 +93,7 @@ public class Place implements Parcelable {
         placeLatitude = in.readDouble();
         placeLongitude = in.readDouble();
         placeTime = in.readInt();
-        if (photos == null) {
-            photos = new ArrayList<>();
-        }
-        in.readList(photos, List.class.getClassLoader());
+        placeReferencePhoto = in.readString();
     }
 
     @Override
@@ -91,7 +106,7 @@ public class Place implements Parcelable {
                 ", placeLatitude=" + placeLatitude +
                 ", placeLongitude=" + placeLongitude +
                 ", placeTime=" + placeTime +
-                ", photos=" + photos +
+                ", placeReferencePhoto=" + placeReferencePhoto +
                 '}';
     }
 }

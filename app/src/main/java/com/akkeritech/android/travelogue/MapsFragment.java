@@ -16,9 +16,13 @@ public class MapsFragment extends SupportMapFragment {
     private static final String TAG = "MapsFragment";
 
     private GoogleMap mMap;
-    Place place;
-
+    private Place place;
+    private PlaceDetailViewModel viewModel;
     private PlaceDetailViewFragment.OnFragmentInteractionListener mListener;
+
+    MapsFragment(PlaceDetailViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     public void setDetails(Place place) {
         this.place = place;

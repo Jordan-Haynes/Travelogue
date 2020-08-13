@@ -15,7 +15,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.renderscript.RenderScript;
 
 import android.view.LayoutInflater;
@@ -35,55 +39,42 @@ public class PlaceDetailViewFragment extends Fragment {
 
     private static final String TAG = "PlaceDetailViewFragment";
 
-    Place place;
-
+    private PlaceDetailViewModel viewModel;
     private File photoFile = null;
-
     private ImageView mPhotoView;
     private LinearLayout mDetailView;
-
     private BottomSheetBehavior mBottomSheetBehavior;
+    private TextView m_nameWidget;
+    private TextView m_locationWidget;
+    private TextView m_notesWidget;
+    private View m_bottomSheet;
 
-    public PlaceDetailViewFragment() {
-        place = null;
-    }
-
-    public void setDetails(Place place) {
-        this.place = place;
+    public PlaceDetailViewFragment(PlaceDetailViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_detail_view, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Pass the view model in from the parent activity. See constructor.
+        // viewModel = new ViewModelProvider(getActivity()).get(PlaceDetailViewModel.class);
 
         mPhotoView = view.findViewById(R.id.place_photo);
-        if (place.photos != null && place.photos.size() > 0) {
-            String photoFile = place.photos.get(0);
-            if (photoFile == null) {
-                // TODO Display a default bitmap
-            } else {
-                Glide.with(view)
-                        .load(photoFile)
-                        .centerCrop()
-                        .into(mPhotoView);
-            }
-        }
         mDetailView = view.findViewById(R.id.detail_card_view);
+        m_nameWidget = view.findViewById(R.id.place_name);
+        m_locationWidget = view.findViewById(R.id.place_location);
+        m_notesWidget = view.findViewById(R.id.place_notes);
+        m_bottomSheet = view.findViewById(R.id.bottom_sheet);
 
-        TextView nameWidget = view.findViewById(R.id.place_name);
-        nameWidget.setText(place.placeName);
-
-        TextView locationWidget = view.findViewById(R.id.place_location);
-        locationWidget.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
-                Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
-
-        TextView notesWidget = view.findViewById(R.id.place_notes);
-        notesWidget.setText("Notes \n\n" + place.placeNotes);
-
-        View bottomSheet = view.findViewById(R.id.bottom_sheet);
-
-        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(m_bottomSheet);
         mBottomSheetBehavior.setPeekHeight(150);
 
         ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
@@ -98,7 +89,23 @@ public class PlaceDetailViewFragment extends Fragment {
             });
         }
 
-        return view;
+        viewModel.getCurrentPlace().observe(this, new Observer<Place>() {
+            @Override
+            public void onChanged(Place place) {
+                if (place != null) {
+                    m_nameWidget.setText(place.placeName);
+                    m_locationWidget.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
+                            Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
+                    m_notesWidget.setText("Notes \n\n" + place.placeNotes);
+                    if (place.placeReferencePhoto != null) {
+                        Glide.with(view)
+                                .load(place.placeReferencePhoto)
+                                .centerCrop()
+                                .into(mPhotoView);
+                    }
+            }
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

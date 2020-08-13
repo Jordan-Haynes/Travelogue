@@ -4,14 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,8 +79,8 @@ public class AddPlaceFragment extends Fragment {
                 } else {
                     Place place = new Place(0, newPlaceName, newPlaceLocation, newPlaceNotes,
                         newLocation.getLatitude(), newLocation.getLongitude(), (int) newLocation.getTime());
-                    place.placeId = viewModel.insertPlace(place);
-
+                    // place.placeId = viewModel.insertPlace(place);
+                    viewModel.insertPlace(place);
                     mListener.onFragmentInteraction(place);
                 }
             }
@@ -129,7 +128,7 @@ public class AddPlaceFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(AddPlaceViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AddPlaceViewModel.class);
     }
 
     @Override
