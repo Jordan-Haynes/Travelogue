@@ -48,6 +48,12 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
                     viewModel.insertPhoto(place, photoFile.getPath());
                 }
             }
+            else if (requestCode == AddPlaceActivity.EDIT_PLACE_REQUEST_CODE) {
+                Log.d(TAG, "Result of edit place are OK");
+            }
+            else if (requestCode == AddPlaceActivity.NEW_PLACE_REQUEST_CODE) {
+                Log.d(TAG, "Result of new place are OK");
+            }
         }
     }
 
@@ -131,7 +137,8 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
                 int position = viewPager.getCurrentItem();
                 if (position == 0) {
                     Intent intent = new Intent(getApplicationContext(), AddPlaceActivity.class);
-                    startActivity(intent);
+                    intent.putExtra(Place.PLACE_NAME, place);
+                    startActivityForResult(intent, AddPlaceActivity.EDIT_PLACE_REQUEST_CODE);
                 } else if (position == 1) {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     if (takePictureIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {

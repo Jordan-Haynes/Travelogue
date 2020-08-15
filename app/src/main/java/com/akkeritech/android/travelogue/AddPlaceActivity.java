@@ -13,6 +13,9 @@ public class AddPlaceActivity extends AppCompatActivity implements AddPlaceFragm
 
     private static final String TAG = "PlaceListActivity";
 
+    public static final int NEW_PLACE_REQUEST_CODE = 1;
+    public static final int EDIT_PLACE_REQUEST_CODE = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +44,9 @@ public class AddPlaceActivity extends AppCompatActivity implements AddPlaceFragm
         }
     }
 
-    public void onFragmentInteraction(Place place) {
-        // Intent intent = new Intent(this, PlaceDetailViewActivity.class);
-        // intent.putExtra(Place.PLACE_NAME, place);
-        Intent intent = new Intent(this, PlaceListActivity.class); // TODO
-        startActivity(intent);
+    public void onFragmentInteraction(int result) {
+        Intent replyIntent = new Intent();
+        setResult(result, replyIntent);
 
         finish();
     }

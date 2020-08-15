@@ -75,7 +75,7 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddPlaceActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, AddPlaceActivity.NEW_PLACE_REQUEST_CODE);
             }
         });
     }

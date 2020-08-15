@@ -33,13 +33,23 @@ public class PlaceRepository {
     LiveData<List<Photo>> getAllPhotos() { return m_allPhotos; }
     LiveData<Place> getCurrentPlace() {return m_currentPlace; }
 
-    // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-    // that you're not doing any long running operations on the main thread, blocking the UI.
+    // You must call the following methods on a non-UI thread or your app will throw an exception.
+    // Room ensures that there are not any long running operations on the main thread, blocking the UI.
+
     void insert(final Place place) {
         PlaceRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 m_placeDao.insert(place);
+            }
+        });
+    }
+
+    void update(final Place place) {
+        PlaceRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                m_placeDao.update(place);
             }
         });
     }

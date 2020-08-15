@@ -1,6 +1,7 @@
 package com.akkeritech.android.travelogue;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
@@ -26,6 +27,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class PlaceListViewFragment extends Fragment {
 
     private static final String TAG = "PlaceListViewFragment";
@@ -36,6 +39,20 @@ public class PlaceListViewFragment extends Fragment {
     private PlaceListViewModel viewModel;
 
     public PlaceListViewFragment() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AddPlaceActivity.EDIT_PLACE_REQUEST_CODE) {
+                Log.d(TAG, "Result of edit place are OK");
+            }
+            else if (requestCode == AddPlaceActivity.NEW_PLACE_REQUEST_CODE) {
+                Log.d(TAG, "Result of new place are OK");
+            }
+        }
     }
 
     @Override
