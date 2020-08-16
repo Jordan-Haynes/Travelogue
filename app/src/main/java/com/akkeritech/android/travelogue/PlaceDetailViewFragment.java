@@ -1,5 +1,6 @@
 package com.akkeritech.android.travelogue;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -94,8 +95,11 @@ public class PlaceDetailViewFragment extends Fragment {
             public void onChanged(Place place) {
                 if (place != null) {
                     m_nameWidget.setText(place.placeName);
-                    m_locationWidget.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
+                    Resources res = getResources();
+                    String locationText = String.format(res.getString(R.string.lat_long_text),
+                            Location.convert(place.placeLatitude, Location.FORMAT_DEGREES),
                             Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
+                    m_locationWidget.setText(locationText);
                     m_notesWidget.setText("Notes \n\n" + place.placeNotes);
                     if (place.placeReferencePhoto != null) {
                         Glide.with(view)

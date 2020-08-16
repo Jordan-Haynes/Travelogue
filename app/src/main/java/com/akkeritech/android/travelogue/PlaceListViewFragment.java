@@ -2,6 +2,7 @@ package com.akkeritech.android.travelogue;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
@@ -171,8 +172,11 @@ public class PlaceListViewFragment extends Fragment {
                             .into(placeImageView);
                 }
 
-                placeLocationTextView.setText(Location.convert(place.placeLatitude, Location.FORMAT_DEGREES) + "," +
+                Resources res = getResources();
+                String locationText = String.format(res.getString(R.string.lat_long_text),
+                        Location.convert(place.placeLatitude, Location.FORMAT_DEGREES),
                         Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
+                placeLocationTextView.setText(locationText);
             }
 
             @Override

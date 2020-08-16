@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -75,7 +76,11 @@ public class AddPlaceFragment extends Fragment {
             editPlaceNotes.setText(place.placeNotes);
 
             TextView currentLocation = addPlaceView.findViewById(R.id.currentLocation);
-            currentLocation.setText(place.placeLatitude + ", " + place.placeLongitude);
+            Resources res = getResources();
+            String locationText = String.format(res.getString(R.string.lat_long_text),
+                    Location.convert(place.placeLatitude, Location.FORMAT_DEGREES),
+                    Location.convert(place.placeLongitude, Location.FORMAT_DEGREES));
+            currentLocation.setText(locationText);
         }
         else {
             editingExistingPlace = false;
@@ -92,8 +97,11 @@ public class AddPlaceFragment extends Fragment {
                                     newLocation = location;
 
                                     TextView currentLocation = addPlaceView.findViewById(R.id.currentLocation);
-                                    currentLocation.setText(Location.convert(newLocation.getLatitude(), Location.FORMAT_DEGREES) + "," +
+                                    Resources res = getResources();
+                                    String locationText = String.format(res.getString(R.string.lat_long_text),
+                                            Location.convert(newLocation.getLatitude(), Location.FORMAT_DEGREES),
                                             Location.convert(newLocation.getLongitude(), Location.FORMAT_DEGREES));
+                                    currentLocation.setText(locationText);
                                 }
                             }
                         });
@@ -104,10 +112,13 @@ public class AddPlaceFragment extends Fragment {
 
             TextView currentLocation = addPlaceView.findViewById(R.id.currentLocation);
             if (newLocation == null) {
-                currentLocation.setText(R.string.placeholder_current);
+                currentLocation.setText(R.string.placeholder_current); // TODO perhaps just say not defined
             } else {
-                // TODO format this using a resource string
-                currentLocation.setText(newLocation.getLatitude() + ", " + newLocation.getLongitude());
+                Resources res = getResources();
+                String locationText = String.format(res.getString(R.string.lat_long_text),
+                        Location.convert(newLocation.getLatitude(), Location.FORMAT_DEGREES),
+                        Location.convert(newLocation.getLongitude(), Location.FORMAT_DEGREES));
+                currentLocation.setText(locationText);
             }
         }
 
