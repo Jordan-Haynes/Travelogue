@@ -14,4 +14,6 @@
     <string name="needs_location">No Current Location Saved with this Place</string>
 
     <string name="title_activity_maps2">Map</string>
+
+    <string name="lat_long_text">%s, %s</string>
 </resources>
