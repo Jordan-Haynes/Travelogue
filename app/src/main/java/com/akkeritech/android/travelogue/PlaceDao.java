@@ -29,7 +29,7 @@ public interface PlaceDao {
     void deleteAll();
 
     @Query("SELECT * FROM place_table WHERE placeId LIKE :pid")
-    LiveData<Place> setPlace(final int pid);
+    Place setPlace(final int pid);
 
     @Query("UPDATE place_table SET placeReferencePhoto = :photoFilename WHERE placeId = :pid")
     int updatePhoto(final int pid, String photoFilename);

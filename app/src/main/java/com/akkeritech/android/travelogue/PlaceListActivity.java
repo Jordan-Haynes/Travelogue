@@ -22,14 +22,15 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
 
     private static final String TAG = "PlaceListActivity";
 
+    // These are required for two pane view
     private boolean mTwoPane;
-
+    private PlaceDetailViewModel twoPaneViewModel = null;
     private TabAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
-    int position;
-    Place mPlace;
+    private PlaceDetailViewFragment detailFragment;
+    private PlacePhotosFragment photosFragment;
+    private MapsFragment mapsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,7 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        // if(findViewById(R.id.places_list_linear_layout) != null) {
-        if (dpWidth < 0) {
+        if(findViewById(R.id.places_list_linear_layout) != null) {
             mTwoPane = true;
             if(savedInstanceState == null) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -95,27 +95,33 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
 
     public void onListFragmentInteraction(Place place) {
         if (mTwoPane) {
-            mPlace = place;
+            if (twoPaneViewModel == null) {
+                twoPaneViewModel = new ViewModelProvider(this).get(PlaceDetailViewModel.class);
+                twoPaneViewModel.setCurrentPlace(place);
 
-            PlaceDetailViewModel viewModel = new ViewModelProvider(this).get(PlaceDetailViewModel.class);
-            viewModel.setCurrentPlace(place);
+                viewPager = findViewById(R.id.viewPager);
+                tabLayout = findViewById(R.id.tabLayout);
+                adapter = new TabAdapter(getSupportFragmentManager());
 
-            viewPager = findViewById(R.id.viewPager);
-            tabLayout = findViewById(R.id.tabLayout);
-            adapter = new TabAdapter(getSupportFragmentManager());
+                detailFragment = new PlaceDetailViewFragment(twoPaneViewModel);
+                adapter.addFragment(detailFragment, "Notes");
 
-            PlaceDetailViewFragment detailFragment = new PlaceDetailViewFragment(viewModel);
-            adapter.addFragment(detailFragment, "Notes");
+                photosFragment = new PlacePhotosFragment(twoPaneViewModel);
+                adapter.addFragment(photosFragment, "Photos");
 
-            PlacePhotosFragment photosFragment = new PlacePhotosFragment(viewModel);
-            adapter.addFragment(photosFragment, "Photos");
+                mapsFragment = new MapsFragment(twoPaneViewModel);
+                mapsFragment.setDetails(place);
+                adapter.addFragment(mapsFragment, "Map");
 
-            MapsFragment mapsFragment = new MapsFragment(viewModel);
-            adapter.addFragment(mapsFragment, "Map");
-
-            viewPager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(viewPager);
-        } else {
+                viewPager.setAdapter(adapter);
+                tabLayout.setupWithViewPager(viewPager);
+            }
+            else {
+                twoPaneViewModel.setCurrentPlace(place);
+                mapsFragment.setDetails(place);
+            }
+        }
+        else {
             Intent intent = new Intent(this, PlaceDetailViewActivity.class);
             intent.putExtra(Place.PLACE_NAME, place);
             startActivity(intent);

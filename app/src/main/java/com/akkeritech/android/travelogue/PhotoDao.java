@@ -2,7 +2,6 @@ package com.akkeritech.android.travelogue;
 
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,7 +22,7 @@ public interface PhotoDao {
     void update(Photo photo);
 
     @Query("SELECT * FROM photo_table WHERE placeId LIKE :currentPlaceId")
-    LiveData<List<Photo>> getPhotos(int currentPlaceId);
+    List<Photo> getPhotos(int currentPlaceId);
 
     @Query("DELETE FROM photo_table")
     void deleteAll();

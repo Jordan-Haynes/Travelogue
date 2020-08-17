@@ -2,9 +2,11 @@ package com.akkeritech.android.travelogue;
 
 import android.app.Application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class PlaceRepository {
     private static final String TAG = "PlaceRepository";
@@ -13,8 +15,8 @@ public class PlaceRepository {
     private PlaceDao m_placeDao;
     private LiveData<List<Place>> m_allPlaces;
     private PhotoDao m_photoDao;
-    private LiveData<List<Photo>> m_allPhotos;
-    private LiveData<Place> m_currentPlace;
+    private MutableLiveData<List<Photo>> m_allPhotos = new MutableLiveData<>();
+    private MutableLiveData<Place> m_currentPlace = new MutableLiveData<>();
 
     // Note that in order to unit test the repository, you have to remove the Application
     // dependency.
@@ -67,8 +69,10 @@ public class PlaceRepository {
         PlaceRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                m_currentPlace = m_placeDao.setPlace(placeId);
-                m_allPhotos = m_photoDao.getPhotos(placeId);
+                Place place = m_placeDao.setPlace(placeId);
+                m_currentPlace.postValue(place);
+                List<Photo> photos = m_photoDao.getPhotos(placeId);
+                m_allPhotos.postValue(photos);
             }
         });
     }
