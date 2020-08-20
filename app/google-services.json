@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "990115539111",
+    "firebase_url": "https://travelogue-e8ab9.firebaseio.com",
+    "project_id": "travelogue-e8ab9",
+    "storage_bucket": "travelogue-e8ab9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990115539111:android:607db08acebe584a",
+        "android_client_info": {
+          "package_name": "com.akkeritech.android.travelogue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990115539111-5004gj7b1b38v5nepn3qqij1k4nub37h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
