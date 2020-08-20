@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Travelogue</string>
+    <string name="action_delete">Delete</string>
+    <string name="submit_call">Submit</string>
+    <string name="cancel_call">Cancel</string>
+    <string name="add_place_title">Add New Entry</string>
+    <string name="action_search">Search</string>
+
+    <string name="place_name_hint">Name</string>
+    <string name="place_location_hint">Location</string>
+    <string name="place_notes_hint">Notes</string>
+    <string name="place_picture_hint">Picture of Place</string>
+
+    <string name="placeholder_current">0, 0</string>
+    <string name="needs_location">No Current Location Saved with this Place</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps2">Map</string>
+
+    <string name="lat_long_text">%s, %s</string>
+</resources>

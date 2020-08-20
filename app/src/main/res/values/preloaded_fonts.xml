@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <array name="preloaded_fonts">
+        <item>@font/special_elite</item>
+        <item>@font/vollkorn_bold</item>
+        <item>@font/vollkorn</item>
+    </array>
+</resources>
