@@ -27,4 +27,7 @@ public interface PhotoDao {
     @Query("DELETE FROM photo_table")
     void deleteAll();
 
+    // TODO Delete row with current Place ID
+    @Query("DELETE FROM photo_table WHERE placeId = :currentPlaceId")
+    void deleteById(int currentPlaceId);
 }

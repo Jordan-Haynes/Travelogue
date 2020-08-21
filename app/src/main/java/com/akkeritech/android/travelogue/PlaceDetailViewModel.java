@@ -48,4 +48,8 @@ public class PlaceDetailViewModel extends AndroidViewModel {
         repository.insert(photo); // TODO does this update the photos list?
         repository.updatePhoto(place.placeId, photoFile); // TODO use menu to select this
     }
+
+    public void deletePlace(Place place) {repository.deletePlace(place);}
+
+    public void deletePlacePhotos(int placeId) {repository.deletePlacePhotos(placeId);}
 }

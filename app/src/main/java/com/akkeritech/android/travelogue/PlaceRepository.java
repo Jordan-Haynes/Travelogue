@@ -1,6 +1,7 @@
 package com.akkeritech.android.travelogue;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,11 +78,29 @@ public class PlaceRepository {
         });
     }
 
-    void updatePhoto(final int placeId, String photoFilename) {
+    void updatePhoto(final int placeId, final String photoFilename) {
         PlaceRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 m_placeDao.updatePhoto(placeId, photoFilename);
+            }
+        });
+    }
+
+    public void deletePlace(final Place place) {
+        PlaceRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                m_placeDao.delete(place);
+            }
+        });
+    }
+
+    public void deletePlacePhotos(final int placeId) {
+        PlaceRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                m_photoDao.deleteById(placeId);
             }
         });
     }

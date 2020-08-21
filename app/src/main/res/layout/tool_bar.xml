@@ -9,7 +9,6 @@
     android:gravity="center_vertical"
     app:layout_collapseMode="pin"
     app:layout_scrollFlags="scroll|enterAlways"
-    app:theme="@style/AppbarTheme"
     app:title="@string/app_name">
 
 </androidx.appcompat.widget.Toolbar>
