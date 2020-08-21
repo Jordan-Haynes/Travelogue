@@ -39,13 +39,13 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
         if(findViewById(R.id.places_list_linear_layout) != null) {
             mTwoPane = true;
-            setSupportActionBar(toolbar);
             if(savedInstanceState == null) {
                 FragmentManager fm = getSupportFragmentManager();
 
@@ -85,6 +85,9 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (!mTwoPane) {
+            return false;
+        }
         getMenuInflater().inflate(R.menu.menu_place_list, menu);
         return true;
     }
