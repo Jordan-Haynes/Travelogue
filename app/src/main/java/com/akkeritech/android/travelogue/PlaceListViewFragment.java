@@ -78,7 +78,7 @@ public class PlaceListViewFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(placeListAdapter);
 
-        viewModel.getAllPlaces().observe(this, new Observer<List<Place>>() {
+        viewModel.getAllPlaces().observe(getViewLifecycleOwner(), new Observer<List<Place>>() {
             @Override
             public void onChanged(List<Place> places) {
                 if (places != null && places instanceof List) {

@@ -90,7 +90,7 @@ public class PlaceDetailViewFragment extends Fragment {
             });
         }
 
-        viewModel.getCurrentPlace().observe(this, new Observer<Place>() {
+        viewModel.getCurrentPlace().observe(getViewLifecycleOwner(), new Observer<Place>() {
             @Override
             public void onChanged(Place place) {
                 if (place != null) {

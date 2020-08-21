@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -31,6 +32,7 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     private PlaceDetailViewFragment detailFragment;
     private PlacePhotosFragment photosFragment;
     private MapsFragment mapsFragment;
+    private Place twoPaneSavedPlace = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
 
         if(findViewById(R.id.places_list_linear_layout) != null) {
             mTwoPane = true;
+            setSupportActionBar(toolbar);
             if(savedInstanceState == null) {
                 FragmentManager fm = getSupportFragmentManager();
 
@@ -90,11 +93,20 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (mTwoPane && id == R.id.action_delete) {
+            twoPaneViewModel.deletePlace(twoPaneSavedPlace);
+            twoPaneViewModel.deletePlacePhotos(twoPaneSavedPlace.placeId);
+            Toast.makeText(PlaceListActivity.this, "Place Deleted", Toast.LENGTH_SHORT).show();
+            finish();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     public void onListFragmentInteraction(Place place) {
         if (mTwoPane) {
+            twoPaneSavedPlace = place;
             if (twoPaneViewModel == null) {
                 twoPaneViewModel = new ViewModelProvider(this).get(PlaceDetailViewModel.class);
                 twoPaneViewModel.setCurrentPlace(place);

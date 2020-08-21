@@ -48,7 +48,7 @@ public class PlacePhotosFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3, RecyclerView.VERTICAL, false));
         mRecyclerView.setAdapter(mPhotoGridAdapter);
 
-        viewModel.getAllPhotos().observe(this, new Observer<List<Photo>>() {
+        viewModel.getAllPhotos().observe(getViewLifecycleOwner(), new Observer<List<Photo>>() {
             @Override
             public void onChanged(List<Photo> photos) {
                 if (photos != null && photos instanceof List) {
