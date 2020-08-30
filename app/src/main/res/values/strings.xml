@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Travelogue</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_take_picture">Take Picture</string>
     <string name="action_delete">Delete</string>
     <string name="submit_call">Submit</string>
     <string name="cancel_call">Cancel</string>

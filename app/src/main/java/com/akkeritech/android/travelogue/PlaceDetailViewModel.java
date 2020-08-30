@@ -3,7 +3,6 @@ package com.akkeritech.android.travelogue;
 import android.app.Application;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.File;
 import java.util.List;

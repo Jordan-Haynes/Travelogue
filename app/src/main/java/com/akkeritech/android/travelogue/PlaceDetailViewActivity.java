@@ -6,7 +6,6 @@ import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,12 +49,6 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
                 if (photoFile != null && photoFile.exists()) {
                     viewModel.insertPhoto(place, photoFile.getPath());
                 }
-            }
-            else if (requestCode == AddPlaceActivity.EDIT_PLACE_REQUEST_CODE) {
-                Log.d(TAG, "Result of edit place are OK");
-            }
-            else if (requestCode == AddPlaceActivity.NEW_PLACE_REQUEST_CODE) {
-                Log.d(TAG, "Result of new place are OK");
             }
         }
     }
@@ -150,7 +143,7 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
                             photoFile = createImageFile();
                         }
                         catch (IOException exception) {
-                            Log.e(TAG, "Exception when creating photo filename: " + exception);
+                            // Exception when creating photo filename
                         }
 
                         if (photoFile != null) {
@@ -170,7 +163,7 @@ public class PlaceDetailViewActivity extends AppCompatActivity implements PlaceD
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_place_list, menu);
+        getMenuInflater().inflate(R.menu.menu_place_detail, menu);
         return true;
     }
 

@@ -96,12 +96,28 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (mTwoPane && id == R.id.action_delete) {
-            twoPaneViewModel.deletePlace(twoPaneSavedPlace);
-            twoPaneViewModel.deletePlacePhotos(twoPaneSavedPlace.placeId);
-            Toast.makeText(PlaceListActivity.this, "Place Deleted", Toast.LENGTH_SHORT).show();
-            finish();
-            return true;
+        if (mTwoPane) {
+            if (id == R.id.action_delete) {
+                twoPaneViewModel.deletePlace(twoPaneSavedPlace);
+                twoPaneViewModel.deletePlacePhotos(twoPaneSavedPlace.placeId);
+                Toast.makeText(PlaceListActivity.this, "Place Deleted", Toast.LENGTH_SHORT).show();
+                finish();
+                return true;
+            }
+            else if (id == R.id.action_edit) {
+                if (twoPaneSavedPlace != null) {
+                    Intent intent = new Intent(getApplicationContext(), AddPlaceActivity.class);
+                    intent.putExtra(Place.PLACE_NAME, twoPaneSavedPlace);
+                    startActivityForResult(intent, AddPlaceActivity.EDIT_PLACE_REQUEST_CODE);
+                    // finish();
+                }
+                return true;
+            }
+            else if (id == R.id.action_take_picture) {
+                Toast.makeText(PlaceListActivity.this, "Take a picture", Toast.LENGTH_SHORT).show();
+                finish();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);

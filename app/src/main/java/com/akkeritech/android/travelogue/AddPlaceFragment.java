@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +64,6 @@ public class AddPlaceFragment extends Fragment {
         place = intent.getParcelableExtra("PlaceName");
 
         if (place != null) {
-            Log.d(TAG, "Editing place " + place);
-
             editingExistingPlace = true;
 
             EditText editPlaceName = addPlaceView.findViewById(R.id.place_name_input);

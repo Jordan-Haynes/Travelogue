@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +45,16 @@ public class PlaceListViewFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        /*
         if (resultCode == RESULT_OK) {
             if (requestCode == AddPlaceActivity.EDIT_PLACE_REQUEST_CODE) {
-                Log.d(TAG, "Result of edit place are OK");
+                
             }
             else if (requestCode == AddPlaceActivity.NEW_PLACE_REQUEST_CODE) {
-                Log.d(TAG, "Result of new place are OK");
+               
             }
         }
+        */
     }
 
     @Override
