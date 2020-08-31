@@ -42,22 +42,6 @@ public class PlaceListViewFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        /*
-        if (resultCode == RESULT_OK) {
-            if (requestCode == AddPlaceActivity.EDIT_PLACE_REQUEST_CODE) {
-                
-            }
-            else if (requestCode == AddPlaceActivity.NEW_PLACE_REQUEST_CODE) {
-               
-            }
-        }
-        */
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

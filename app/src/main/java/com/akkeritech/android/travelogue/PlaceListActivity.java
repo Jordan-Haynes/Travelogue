@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Menu;
@@ -19,9 +22,15 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PlaceListActivity extends AppCompatActivity implements PlaceListViewFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = "PlaceListActivity";
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     // These are required for two pane view
     private boolean mTwoPane;
@@ -33,6 +42,18 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     private PlacePhotosFragment photosFragment;
     private MapsFragment mapsFragment;
     private Place twoPaneSavedPlace = null;
+    private File photoFile = null;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            if (photoFile != null && photoFile.exists()) {
+                twoPaneViewModel.insertPhoto(twoPaneSavedPlace, photoFile.getPath());
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,13 +130,29 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
                     Intent intent = new Intent(getApplicationContext(), AddPlaceActivity.class);
                     intent.putExtra(Place.PLACE_NAME, twoPaneSavedPlace);
                     startActivityForResult(intent, AddPlaceActivity.EDIT_PLACE_REQUEST_CODE);
-                    // finish();
                 }
                 return true;
             }
             else if (id == R.id.action_take_picture) {
-                Toast.makeText(PlaceListActivity.this, "Take a picture", Toast.LENGTH_SHORT).show();
-                finish();
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
+
+                    try {
+                        photoFile = createImageFile();
+                    }
+                    catch (IOException exception) {
+                        // Exception when creating photo filename
+                    }
+
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),
+                                "com.akkeritech.android.travelogue.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    }
+                }
+
                 return true;
             }
         }
@@ -160,5 +197,12 @@ public class PlaceListActivity extends AppCompatActivity implements PlaceListVie
     }
 
     public void onFragmentInteraction(Uri uri) {
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        File storageDir = getApplicationContext().getFilesDir();
+        return new File(storageDir, imageFileName);
     }
 }

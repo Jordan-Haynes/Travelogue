@@ -34,7 +34,7 @@ public class PlaceRepository {
         return m_allPlaces;
     }
     LiveData<List<Photo>> getAllPhotos() { return m_allPhotos; }
-    LiveData<Place> getCurrentPlace() {return m_currentPlace; }
+    LiveData<Place> getCurrentPlace() { return m_currentPlace; }
 
     // You must call the following methods on a non-UI thread or your app will throw an exception.
     // Room ensures that there are not any long running operations on the main thread, blocking the UI.
@@ -53,6 +53,7 @@ public class PlaceRepository {
             @Override
             public void run() {
                 m_placeDao.update(place);
+                m_currentPlace.postValue(place);
             }
         });
     }
@@ -83,6 +84,8 @@ public class PlaceRepository {
             @Override
             public void run() {
                 m_placeDao.updatePhoto(placeId, photoFilename);
+                List<Photo> photos = m_photoDao.getPhotos(placeId);
+                m_allPhotos.postValue(photos);
             }
         });
     }
